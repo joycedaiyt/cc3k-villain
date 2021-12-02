@@ -9,7 +9,7 @@
 #include <stdexcept>
 #include <string>
 #include <utility>
-#include <vector>
+#include <vector> 
 #include "Floor.h"
 using namespace std;
 
@@ -17,7 +17,7 @@ int main() {
     
     // this player pointer is first declared here and waiting for assignment 
     // when the the user choose their hero
-    shared_ptr<Player> player;
+    Player* player;
     
     // Player race selection
     cout << "Please select from one of the following player characters: " << endl;
@@ -64,14 +64,10 @@ int main() {
         string command;
         getline(cin, command);
 
-        bool take_potion = false;
-        bool attack = false;
         if (command[0] == 'u') {
-            take_potion = true;
             command.erase();
             player->use_potion(command);
         } else if (command[0] == 'a') {
-            attack = true;
             command.erase();
             player->attack(command);
         } else if (command == "r") {
@@ -87,7 +83,7 @@ int main() {
         }
 
         if (floor->level_up()) {
-            floor = make_shared<Floor>(floor->get_floor_number() + 1, player);
+            floor->reset();
         }
     }
 }
