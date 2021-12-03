@@ -16,6 +16,8 @@ using namespace std;
 
 class Cell;
 class Player;
+class Character;
+class Item;
 
 class Floor {
 

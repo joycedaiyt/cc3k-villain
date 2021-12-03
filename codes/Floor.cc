@@ -147,8 +147,11 @@ bool Floor::object_exist(int x, int y) {
 
 // time to level up !!!!!!!!!
 void Floor::reset() {
-    
+    enemies.clear();
+    items.clear();
+    components.clear();
 }
+
 // Determines if the player needs to be teleported to the next floor
 bool Floor::level_up() {
     int nLeftTopX = rand() % 100;
@@ -156,10 +159,10 @@ bool Floor::level_up() {
     int nRightBottomX = rand() % 100;
     int nRightBottomY = rand() % 100;
 
-    if (player.x_cor >= nLeftTopX && player.x_cor <= nRightBottomX && 
-    player.y_cor >= nLeftTopY && player.y_cor <= nRightBottomY) {
+    if (player.x_cor >= nLeftTopX && player.x_cor <= nRightBottomX &&
+        player.y_cor >= nLeftTopY && player.y_cor <= nRightBottomY) {
         return true;
- }
- 
+    }
+
     return false;
 }
