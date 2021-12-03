@@ -69,7 +69,7 @@ static int determine_chamber(int x, int y) {
 static pair<int, int> get_random_position(int chamber) {
     if (chamber == 1) {
         int x = rand() % 25 + 4;
-        pair<int, int> result ( )
+        pair<int, int> result ()
     } else if (chamber == 2) {
         
     } else if (chamber == 3) {
@@ -151,5 +151,15 @@ void Floor::reset() {
 }
 // Determines if the player needs to be teleported to the next floor
 bool Floor::level_up() {
-    
+    int nLeftTopX = rand() % 100;
+    int nLeftTopY = rand() % 100;
+    int nRightBottomX = rand() % 100;
+    int nRightBottomY = rand() % 100;
+
+    if (player.x_cor >= nLeftTopX && player.x_cor <= nRightBottomX && 
+    player.y_cor >= nLeftTopY && player.y_cor <= nRightBottomY) {
+        return true;
+ }
+ 
+    return false;
 }

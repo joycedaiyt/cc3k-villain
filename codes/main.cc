@@ -51,7 +51,7 @@ int main() {
         if (player->get_hp() <= 0) {
             cout << "you lose" << endl;
             break;
-        } else if (floor->get_floor_number == 6) {
+        } else if (floor->get_floor_number() == 6) {
             // when you go through all the 5 floors
             cout << "you win" << endl;
             break;

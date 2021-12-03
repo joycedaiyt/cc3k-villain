@@ -38,11 +38,11 @@ class Floor {
     // it may be used when gold or potion is dropped from 
     void add_new_item(shared_ptr<Item>);
     // Randomly spawns map components
-    void generate_enemy();
     void generate_player();
+    void generate_stair();
     void generate_potion();
     void generate_gold();
-    void generate_stair();
+    void generate_enemy();
     // Determines if the cell at (x,y) is occupied or not
     bool object_exist(int x, int y);
     // time to level up !!!!!!!!!
