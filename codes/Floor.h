@@ -16,11 +16,10 @@
 #include "Stair.h"
 #include "Item.h"
 #include "Gold.h"
+#include "Player.h"
+#include "Character"
 #include "CharacterCreator.h"
 using namespace std;
-
-class Player;
-class Character;
 
 class Floor {
 

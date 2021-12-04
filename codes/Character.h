@@ -37,8 +37,7 @@ class Character {
     virtual int attacked_by(Character& c);
     virtual int attack_to(Character& c);
     // this function will return the symbol representing this character
-    virtual char get_symbol() = 0;
-    
+    virtual char get_symbol() = 0
 };
 
 #endif

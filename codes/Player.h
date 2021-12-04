@@ -14,12 +14,12 @@
 #include <vector>
 using namespace std;
 
-class Player: Character {
+class Player: public Character {
     int x;
     int y;
-    string type
+    string type;
     public:
-    Character(int x, int y, string type);
+    Player(int x, int y, string type);
 }
 
 #endif
