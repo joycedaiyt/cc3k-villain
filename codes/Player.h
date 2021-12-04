@@ -14,4 +14,12 @@
 #include <vector>
 using namespace std;
 
+class Player: Character {
+    int x;
+    int y;
+    string type
+    public:
+    Character(int x, int y, string type);
+}
+
 #endif

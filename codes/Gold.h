@@ -14,4 +14,11 @@
 #include <vector>
 using namespace std;
 
+class Gold: Item {
+    int amount;
+    public:
+    Gold(int amount);
+    int get_amount();
+};
+
 #endif

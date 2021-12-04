@@ -12,12 +12,15 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include "Cell.h"
+#include "Stair.h"
+#include "Item.h"
+#include "Gold.h"
+#include "CharacterCreator.h"
 using namespace std;
 
-class Cell;
 class Player;
 class Character;
-class Item;
 
 class Floor {
 
@@ -52,5 +55,7 @@ class Floor {
     // Determines if the player needs to be teleported to the next floor
     bool level_up();
     void player_init();
+    // this will randomly move all the enemies position
+    void move_enemies();
 };
 #endif

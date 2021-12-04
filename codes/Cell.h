@@ -15,9 +15,9 @@
 using namespace std;
 
 class Cell {
-    char type;
     public:
-    char getChar();
+    string type;
+    Cell(string type);
 };
 
 #endif

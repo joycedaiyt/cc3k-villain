@@ -1,5 +1,5 @@
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef STAIR_H
+#define STAIR_H
 #include <algorithm>
 #include <fstream>
 #include <iomanip>
@@ -12,14 +12,16 @@
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "Item.h"
+#include "Stair.h"
 using namespace std;
 
-class Item {
-    public:
+class Stair: public Item {
     int x_cor;
     int y_cor;
-    // this return the symbol for the for renderring
-    virtual char get_symbol();
+    public:
+    Stair(int x, int y);
 };
 
 #endif

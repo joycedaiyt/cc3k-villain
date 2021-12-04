@@ -16,7 +16,7 @@
 #include "Enemy.h"
 using namespace std;
 
-class Drawf: public Enemy {
+class Dwarf: public Enemy {
     public:
     int attacked_by(Character& c) override;
     int attack_to(Character& c) override;
