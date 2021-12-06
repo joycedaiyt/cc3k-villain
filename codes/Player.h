@@ -12,14 +12,16 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include "Character.h"
 using namespace std;
 
 class Player: public Character {
-    int x;
-    int y;
-    string type;
     public:
-    Player(int x, int y, string type);
-}
+    int chamber;
+    Player(int x_cor, int y_cor, Floor* floor, int chamber);
+    ~Player();
+    char get_symbol() override;
+    void move(string s) override;
+};
 
 #endif

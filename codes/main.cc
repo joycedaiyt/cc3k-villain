@@ -14,11 +14,9 @@
 using namespace std;
 
 int main() {
-    
     // this player pointer is first declared here and waiting for assignment 
     // when the the user choose their hero
-    Player* player;
-    
+
     // Player race selection
     cout << "Please select from one of the following player characters: " << endl;
     cout << "d: drow" << endl;
@@ -28,25 +26,22 @@ int main() {
     string race;
     cin >> race;
     
-    // this part is assigning the correct player type to the main character
-    if (race == "s") {
-        player = make_shared<Shade>();
-    } else if (race == "d") {
-        player = make_shared<Drow>();
-    } else if (race == "v") {
-        player = make_shared<Vampire>();
-    } else if (race == "t") {
-        player = make_shared<Troll>();
-    } else if (race == "g") {
-        player = make_shared<Goblin>();
-    }
-    
     // this means create a floor with level at 1
-    shared_ptr<Floor> floor = make_shared<Floor>(1, player);
+    Floor* floor = new Floor(1);
+    // this part is assigning the correct player type to the main character
+    floor->player_init(race);
+    // generates all the components of the floor
+    // generating order:
+    // player -> stairs -> potion -> gold -> enemy
+    floor->generate_stair();
+    floor->generate_enemy();
+    floor->generate_potion();
+    floor->generate_gold();
+    
+    shared_ptr<Player> player = floor->player;
 
     // this is the main game loop
     while(true) {
-
         // this part determine if we need to break out of the game loop
         if (player->get_hp() <= 0) {
             cout << "you lose" << endl;
@@ -56,7 +51,7 @@ int main() {
             cout << "you win" << endl;
             break;
         }
-        
+
         floor->render_graphics();
         floor->render_text();
 

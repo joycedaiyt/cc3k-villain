@@ -1,5 +1,6 @@
 #ifndef ENEMY_H
 #define ENEMY_H
+
 #include <algorithm>
 #include <fstream>
 #include <iomanip>
@@ -14,14 +15,19 @@
 #include <vector>
 
 #include "Character.h"
+#include "Floor.h"
+
 using namespace std;
 
 class Enemy: public Character {
-    string type;
     public:
-    string get_type();
-    virtual int attacked_by(Character& c);
-    virtual int attack_to(Character& c);
+    bool hostile;
+    Enemy(int x_cor, int y_cor, Floor* floor);
+    ~Enemy();
+    virtual void move(string s);
+    virtual char get_symbol() = 0;
+    virtual int attacked_by(Character& c) = 0;
+    virtual int attack_to(Character& c) = 0;
 };
 
 #endif

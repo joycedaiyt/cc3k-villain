@@ -16,8 +16,8 @@ using namespace std;
 
 class Cell {
     public:
-    string type;
-    Cell(string type);
+    char type;
+    Cell(char type);
 };
 
 #endif

@@ -12,10 +12,11 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <Enemy.h"
 #include "Human.h"
 #include "Dwarf.h"
 #include "Elf.h"
-#include "Orc.h"
+#include "Orcs.h"
 #include "Merchant.h"
 #include "Merchant.h"
 #include "Dragon.h"
@@ -24,6 +25,7 @@
 #include "Shade.h"
 #include "Vampire.h"
 #include "Goblin.h"
+#include "Troll.h"
 
 class CharacterCreator {
     // it is used for creating different character
@@ -31,7 +33,10 @@ class CharacterCreator {
     // want to create and it will return a pointer of 
     // that character
     public:
-    shared_ptr<Character> create_character_by_name(string character_name, int x_cord, int y_cord);
+    shared_ptr<Player> create_character_by_name(string character_name, 
+    int x_cord, int y_cord, Floor* floor, int chamber_number);
+    shared_ptr<Enemy> CharacterCreator::create_character_by_name(string character_name, int x_cord, int y_cord,
+    Floor* floor);
 };
 
 #endif

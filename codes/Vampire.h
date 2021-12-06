@@ -14,4 +14,14 @@
 #include <vector>
 using namespace std;
 
+#include "Floor.h"
+
+class Vampire: public Player {
+    public:
+    Vampire(int x_cor, int y_cor, Floor* floor, int chamber);
+    ~Vampire();
+    int attacked_by(Character& c) override;
+    int attack_to(Character& c) override;
+};
+
 #endif

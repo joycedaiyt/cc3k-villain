@@ -18,6 +18,8 @@ using namespace std;
 
 class Dwarf: public Enemy {
     public:
+    Dwarf(int x_cor, int y_cor, Floor* floor);
+    ~Dwarf();
     int attacked_by(Character& c) override;
     int attack_to(Character& c) override;
 };

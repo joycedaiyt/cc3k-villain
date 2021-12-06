@@ -1,5 +1,5 @@
-#ifndef HALFLING_H
-#define HALFLING_H
+#ifndef TROLL_H
+#define TROLL_H
 #include <algorithm>
 #include <fstream>
 #include <iomanip>
@@ -12,16 +12,17 @@
 #include <string>
 #include <utility>
 #include <vector>
-
-#include "Enemy.h"
 using namespace std;
 
-class Halfling: public Enemy {
+#include "Floor.h"
+
+class Troll: public Player {
     public:
-    Halfling(int x_cor, int y_cor, Floor* floor);
-    ~Halfling();
+    Troll(int x_cor, int y_cor, Floor* floor, int chamber);
+    ~Troll();
     int attacked_by(Character& c) override;
     int attack_to(Character& c) override;
 };
+
 
 #endif

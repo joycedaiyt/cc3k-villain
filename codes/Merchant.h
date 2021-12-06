@@ -18,6 +18,8 @@ using namespace std;
 
 class Merchant: public Enemy {
     public:
+    Merchant(int x_cor, int y_cor, Floor* floor);
+    ~Merchant();
     int attacked_by(Character& c) override;
     int attack_to(Character& c) override;
 };

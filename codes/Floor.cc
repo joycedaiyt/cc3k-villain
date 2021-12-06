@@ -2,50 +2,55 @@
 #include <stdlib.h>
 using namespace std;
 
-
-// generating order:
-// player -> stairs -> potion -> gold -> enemy
-
-Floor::Floor(int floor_number, Player* player):
-    floor_number{floor_number}, player{player} {
+Floor::Floor(int floor_number):
+    floor_number(floor_number) {
     // this is used to fill in the cell and create an empty map
-    ifstream infile{"emptyfloor.txt"};
+    ifstream infile("empty_map.txt");
     char c;
-    for (int i = 0; i < 30; ++i) {
+    for (int i = 0; i < 25; ++i) {
         vector<shared_ptr<Cell>> row;
         for (int j = 0; j < 79; ++j) {
-            infile >> c;
+            infile.get(c);
             shared_ptr<Cell> new_cell = make_shared<Cell>(c);
             row.push_back(new_cell);
         }
+        infile.get(c);
         this->cells.push_back(row);
     }
 }
 
-Floor::~Floor() {
-    delete this->player;
+char Floor::get_symbol(int x_cor, int y_cor) {
+    return this->cells[y_cor][x_cor]->type;
 }
 
-void Floor::render_graphics() {\
+void Floor::set_symbol(int x_cor, int y_cor, char symbol) {
+    this->cells[y_cor][x_cor]->type = symbol;
+}
+
+Floor::~Floor() {
+}
+
+void Floor::render_graphics() {
     // this should be moved to places after 
     // this->move_enemies();
     
     // change all the items represent the cell
     for (int i = 0; i < this->items.size(); i++) {
-        this->cells[this->items[i]->x_cor][this->items[i]->y_cor]->type = this->items[i]->get_symbol();
+        shared_ptr<Item> cur_item= this->items[i];
+        set_symbol(cur_item->x_cor, cur_item->y_cor, cur_item->get_symbol());
     }
 
     // change all the enemy represent the cell
     for (int i = 0; i < this->enemies.size(); i++) {
-        this->cells[this->enemies[i]->x_cor][this->enemies[i]->y_cor]->type = this->enemies[i]->get_symbol();
+        shared_ptr<Enemy> cur_enemy = this->enemies[i];
+        set_symbol(cur_enemy->x_cor, cur_enemy->y_cor, cur_enemy->get_symbol());
     }
 
     // rendering player
-    this->cells[this->player->x_cor][this->player->y_cor]->type = this->player->get_symbol();
-
-    for (int i = 0; i < 30; ++i) {
-        for (int j = 0; j < 79; ++j) {
-            cout << this->cells[i][j];
+    set_symbol(player->x_cor, player->y_cor, '@');
+    for (int y = 0; y < 25; ++y) {
+        for (int x = 0; x < 79; ++x) {
+            cout << get_symbol(x, y);
         }
         cout << endl;
     }
@@ -89,98 +94,62 @@ void Floor::move_enemies() {
     }
 }
 
-static int determine_chamber(int x, int y) {
-    if (x <= 30 && x >= 0 && y <= 8 && y >= 0) {
-        int chamber = 1; 
-    } else if (x <= 27 && x >= 4 && y <= 23 && y >= 15) {
-        int chamber = 2;
-    } else if (x <= 23 && x >= 36 && y <= 78 && y >= 16) {
-        int chamber = 3;
-    } else if (x <= 52 && x >= 38 && y <= 14 && y >= 10) {
-        int chamber = 4;
-    } else {
-        int chamber = 5;
-    }
-}
+// chamber number:
+//      1: top left
+//      2: bottom left
+//      3: bottom right
+//      4: middle 
+//      5: top right
 
-// to be continued 
-// this need to be fixed since we need no dependency on determine_chamber()
-static std::pair<int, int> get_random_position(int chamber)
-{
-    if (chamber == 1)
-    {
-        int nX = rand() % 30;
-        int nY = rand() % 8;
-        return std::pair<int, int>(nX, nY);
+std::pair<int, int> Floor::get_random_position(int chamber) {
+    int nX, nY;
+    if (chamber == 1) {
+        nX = (rand() % 26) + 3;
+        nY = (rand() % 4) + 3;
     }
-    else if (chamber == 2)
-    {
-        int nX = rand() % (27 - 4) + 4;
-        int nY = rand() % (23 - 15) + 15;
-        return std::pair<int, int>(nX, nY);
+    else if (chamber == 2) {
+        nX = (rand () % 21) + 4;
+        nY = (rand () % 7) + 15;
     }
-    else if (chamber == 3)
-    {
-        int nX = rand() % (36 - 23) + 23;
-        int nY = rand() % (78 - 16) + 16;
-        return std::pair<int, int>(nX, nY);
-    }
-    else if (chamber == 4)
-    {
-        int nX = rand() % (52 - 38) + 38;
-        int nY = rand() % (14 - 10) + 10;
-        return std::pair<int, int>(nX, nY);
-    }
-    else if (chamber == 5)
-    {
-        while (1)
-        {
-            int nX = rand() % 52;
-            int nY = rand() % 78;
-            if (determine_chamber(nX, nY) == 5)
-            {
-                return std::pair<int, int>(nX, nY);
-            }
+    else if (chamber == 3) {
+        nX = (rand () % 39) + 37; 
+        nY = (rand () % 6) + 16;
+        if (nY >= 16 && nY <= 18 && nX >= 37 && nX <= 64) {
+            get_random_position(chamber);
         }
     }
-    return std::pair<int, int>();
-}
-//   if (this->cells[coo][y]->type == ".") break;
-
-
-static pair<int, int> get_random_position(int chamber) {
-    if (chamber == 1) {
-        int x = rand() % 25 + 4;
-        pair<int, int> result ();
-    } else if (chamber == 2) {
-        
-    } else if (chamber == 3) {
-
-    } else if (chamber == 4) {
-
-    } else if (chamber == 5) {
-
+    else if (chamber == 4) {
+        nX = (rand () % 12) + 38;
+        nY = (rand () % 3) + 10;
     }
-    //   if (this->cells[coo][y]->type == ".") break;
+    else if (chamber == 5) {
+        nX = (rand () % 37) + 39;
+        nY = (rand () % 10) + 3;
+        if ((nY >= 7 && nY <= 13 && nX >= 38 and nX <= 60) || 
+            (nY >= 5 && nY <= 6 && nX >= 73 and nX <= 76) || 
+            (nY >= 4 && nY <= 5 && nX >= 70 and nX <= 74) || 
+            (nY >= 2 && nY <= 4 && nX >= 62 and nX <= 76)) { 
+            get_random_position(chamber);
+        }
+    }
+    if (get_symbol(nX, nY) != '.') {
+        get_random_position(chamber);
+    }
+    return std::make_pair(nX, nY);
+}
+
+// to be changed over to the Player class
+void Floor::player_init(string race) {
+    int chamber = rand() % 5 + 1;
+    pair<int, int> coord = get_random_position(chamber);
+    set_symbol(coord.first, coord.second, '@');
+    CharacterCreator cc{};
+    shared_ptr<Player> player_race;
+    player_race = cc.create_character_by_name(race, coord.first, coord.second, this, chamber);
+    this->player = player_race;
 }
 
 // Randomly spawns map components
-
-// to be changed over to the Player class
-void Floor::player_init() {
-    int chamber = rand() % 5 + 1;
-    pair<int, int> coord = get_random_position(chamber);
-    this->cells[coord.first][coord.second]->type = "@";
-    player->x = coord.first;
-    player->y = coord.second;
-    // chamber number:
-    //      1: top left
-    //      2: bottom left
-    //      3: bottom right
-    //      4: middle 
-    //      5: top right
-}
-
 void Floor::generate_stair() {
     int chamber;
     while (true) {
@@ -192,14 +161,13 @@ void Floor::generate_stair() {
     pair<int, int> coord = get_random_position(chamber);
     shared_ptr<Stair> stair = make_shared<Stair>(coord.first, coord.second);
     items.push_back(stair);
-    this->cells[coord.first][coord.second]->type = '\\';
 }
 
 void Floor::generate_potion() {
     for (int i = 0; i < 10; i++) {
         int chamber = rand() % 5 + 1;
         pair<int, int> coord = get_random_position(chamber);
-        int which = rand() % 5;
+        int which = rand() % 6;
         string type;
         if (which == 0) {
             type = "RH";
@@ -216,7 +184,6 @@ void Floor::generate_potion() {
         }
         shared_ptr<Potion> potion = make_shared<Potion>(coord.first, coord.second, type);
         items.push_back(potion);
-        this->cells[coord.first][coord.second]->type = 'P';
     }
 }
 
@@ -234,7 +201,6 @@ void Floor::generate_gold() {
         }
         shared_ptr<Gold> gold = make_shared<Gold>(coord.first, coord.second, amount);
         items.emplace_back(gold);
-        this->cells[coord.first][coord.second]->type = 'G';
     }
 }
 
@@ -259,39 +225,13 @@ void Floor::generate_enemy() {
         }
         // this should be later use charactor_factory to create
         CharacterCreator cc{};
-        shared_ptr<Character> enemy = cc.create_character_by_name(type, coord.first, coord.second);
-        enemies.push_back(enemy);
-        this->cells[coord.first][coord.second]->type = type;
-    }
-}
-
-// Determines if the cell at (x,y) is occupied or not
-bool Floor::object_exist(int x, int y) {
-    if (cells[x][y]->type != ".") {
-        return true;
-    } else {
-        return false;
+        shared_ptr<Enemy> enemy = cc.create_character_by_name(type, coord.first, coord.second, this);
+        this->enemies.push_back(enemy);
     }
 }
 
 // time to level up !!!!!!!!!
 void Floor::reset() {
-    enemies.clear();
-    items.clear();
+    this->enemies.clear();
+    this->items.clear();
 }
-
-// // Determines if the player needs to be teleported to the next floor
-// bool Floor::level_up() {
-//     // if ()
-//     // int nLeftTopX = rand() % 100;
-//     // int nLeftTopY = rand() % 100;
-//     // int nRightBottomX = rand() % 100;
-//     // int nRightBottomY = rand() % 100;
-
-//     // if (player.x_cor >= nLeftTopX && player.x_cor <= nRightBottomX &&
-//     //     player.y_cor >= nLeftTopY && player.y_cor <= nRightBottomY) {
-//     //     return true;
-//     // }
-
-//     // return false;
-// }

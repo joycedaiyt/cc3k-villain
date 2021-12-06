@@ -1,5 +1,5 @@
-#ifndef ORC_H
-#define ORC_H
+#ifndef ORCS_H
+#define ORCS_H
 #include <algorithm>
 #include <fstream>
 #include <iomanip>
@@ -16,8 +16,10 @@
 #include "Enemy.h"
 using namespace std;
 
-class Human: public Enemy {
+class Orcs: public Enemy {
     public:
+    Orcs(int x_cor, int y_cor, Floor* floor);
+    ~Orcs();
     int attacked_by(Character& c) override;
     int attack_to(Character& c) override;
 };

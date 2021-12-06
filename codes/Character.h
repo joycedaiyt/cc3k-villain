@@ -19,25 +19,23 @@ using namespace std;
 class Floor;
 
 class Character {
-    shared_ptr<Floor> floor;
+    public:
     vector<shared_ptr<Potion>> potion_effects;
-    int hp;
-    int max_hp;
     int attack;
     int defence;
-    public:
+    Floor* floor;
+    char symbol;
     int x_cor;
     int y_cor;
-    Character(shared_ptr<Floor> f);
+    int max_hp;
+    int hp;
+    Character(int x_cor, int y_cor, Floor* floor);
     ~Character();
-    virtual int get_attack();
-    virtual int get_defence();
-    int get_hp();
-    pair<int, int> move(string s);
-    virtual int attacked_by(Character& c);
-    virtual int attack_to(Character& c);
+    virtual void move(string s) = 0;
+    virtual int attacked_by(Character& c) = 0;
+    virtual int attack_to(Character& c) = 0;
     // this function will return the symbol representing this character
-    virtual char get_symbol() = 0
+    virtual char get_symbol() = 0;
 };
 
 #endif
