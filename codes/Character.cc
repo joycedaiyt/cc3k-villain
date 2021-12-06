@@ -7,3 +7,7 @@ Character::Character(int x_cor, int y_cor, Floor* floor) {
 }
 
 Character::~Character() {}
+
+int Character::get_hp() {
+    
+}

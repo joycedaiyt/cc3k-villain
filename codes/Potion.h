@@ -23,7 +23,7 @@ public:
 	virtual char get_symbol();
 
 private:
-    bool    used;
+    bool used;
 };
 
 class PotionEffect :public Potion {

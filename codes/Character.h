@@ -36,6 +36,9 @@ class Character {
     virtual int attack_to(Character& c) = 0;
     // this function will return the symbol representing this character
     virtual char get_symbol() = 0;
+    
+    // this is called when you want to get hp value of a hero with the potion effect
+    virtual int get_hp();
 };
 
 #endif
