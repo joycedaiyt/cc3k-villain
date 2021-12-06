@@ -16,10 +16,19 @@
 #include "Item.h"
 using namespace std;
 
-struct Potion: public Item {
-    string potion_type;
+class Potion: public Item {
+public:
     Potion(int x, int y, string potion_type);
     ~Potion();
+	virtual char get_symbol();
+
+private:
+    bool    used;
+};
+
+class PotionEffect :public Potion {
+public:
+    PotionEffect(int x, int y, string potion_type);
 };
 
 #endif

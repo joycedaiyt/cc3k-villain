@@ -12,13 +12,22 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include "Item.h"
+
 using namespace std;
 
 class Gold: Item {
-    int amount;
-    public:
-    Gold(int amount);
-    int get_amount();
+public:
+    Gold(int x, int y, int type);
+
+public:
+	virtual char get_symbol();
+	int     get_gold_type();
+    void    set_pickup(bool b);
+    bool    get_pickup();
+private:
+    int     gold_type;
+    bool    pickup;
 };
 
 #endif

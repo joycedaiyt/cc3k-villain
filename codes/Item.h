@@ -15,11 +15,19 @@
 using namespace std;
 
 class Item {
-    public:
-    int x_cor;
-    int y_cor;
-    // this return the symbol for the for renderring
-    virtual char get_symbol();
+public:
+	Item(int x, int y);
+
+public:
+	// this return the symbol for the for renderring
+    virtual char get_symbol() = 0;
+	virtual const std::string& get_effect_type()const;
+	virtual int get_effect_val()const;
+public:
+	int x_cor;
+	int y_cor;
+	int effect_val;
+	std::string effect_type;
 };
 
 #endif
