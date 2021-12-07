@@ -7,9 +7,19 @@ Item::Item(int x, int y){
 }
 
 const std::string& Item::get_effect_type()const {
-	return effect_type;
+    return effect_type;
+}
+
+void Item::set_effect_val(int val)
+{
+    effect_val = val;
 }
 
 int Item::get_effect_val() const {
 	return effect_val;
+}
+
+std::string Item::GetName()
+{
+	return "Empty";
 }

@@ -16,13 +16,18 @@
 
 using namespace std;
 
-class Gold: public Item {
+class Gold: public Item, ItemFactoryHelper < Gold > {
 public:
-    Gold(int x, int y, int effect_valw);
-	virtual char get_symbol();
+    Gold(int x, int y, int value);
+    Gold(int x, int y);
+    virtual char get_symbol();
 	int     get_gold_type();
     void    set_pickup(bool b);
     bool    get_pickup();
+
+public:
+	static std::string GetName();
+
 private:
     bool    pickup;
 };
