@@ -37,17 +37,16 @@ void Floor::render_graphics() {
     // change all the items represent the cell
     for (int i = 0; i < this->items.size(); i++) {
         shared_ptr<Item> cur_item= this->items[i];
-        set_symbol(cur_item->x_cor, cur_item->y_cor, cur_item->get_symbol());
+        if (get_symbol(cur_item->x_cor, cur_item->y_cor == '.')) {
+            set_symbol(cur_item->x_cor, cur_item->y_cor, cur_item->get_symbol());
+        }
     }
 
     // change all the enemy represent the cell
-    for (int i = 0; i < this->enemies.size(); i++) {
-        shared_ptr<Enemy> cur_enemy = this->enemies[i];
-        set_symbol(cur_enemy->x_cor, cur_enemy->y_cor, cur_enemy->get_symbol());
-    }
 
     // rendering player
-    set_symbol(player->x_cor, player->y_cor, '@');
+    // set_symbol(player->x_cor, player->y_cor, '@');
+
     for (int y = 0; y < 25; ++y) {
         for (int x = 0; x < 79; ++x) {
             cout << get_symbol(x, y);
@@ -69,10 +68,66 @@ void Floor::add_new_item(shared_ptr<Item> item) {
     
 }
 
+pair<int, int> Floor::new_direction(string direction, int old_x, int old_y) {
+    int new_x = old_x;
+    int new_y = old_y;
+    if (direction == "no") {
+        new_y += 1;
+    } else if (direction == "so") {
+        new_y -= 1;
+    } else if (direction == "ea") {
+        new_x +=1 ;
+    } else if (direction == "we") {
+        new_x -= 1;
+    } else if (direction == "ne") {
+        new_x += 1;
+        new_y += 1;
+    } else if (direction == "nw") {
+        new_x += 1;
+        new_y -= 1;
+    } else if (direction == "se") {
+        new_x -= 1;
+        new_y += 1;
+    } else if (direction == "sw") {
+        new_x -= 1;
+        new_y -= 1;
+    }
+    return make_pair(new_x, new_y);
+}
+
+void Floor::move_player(string direction) {
+    int old_x = player->x_cor;
+    int old_y = player->y_cor;
+    pair<int, int> location = new_direction(direction, old_x, old_y);
+    int new_x = location.first;
+    int new_y = location.second;
+    char new_loc_symbol = get_symbol(new_x, new_y);
+    if (new_loc_symbol == '.' || new_loc_symbol = 'G') {
+        this->player->x_cor = new_x;
+        this->player->y_cor = new_y;
+        set_symbol(old_x, old_y, '.');
+        set_symbol(new_x, new_y, '@');
+        
+    // if player's new direction has gold
+    // if player's new direction has potion
+        if (new_loc_symbol = 'G') {
+            for (int i = 0; i < this->items.size(); ++i) {
+                if (new_x == this->items[i]->x_cor && new_y == this->items[i]->y_cor) {
+                    int delta_gold = this->items[i]->get_gold_type();
+                    
+                }
+            }
+        }
+    } 
+
+}
+
 void Floor::move_enemies() {
     for (int i; i < this->enemies.size(); ++i) {
         int direction_number = rand() % 8;
         string direction;
+        int old_x = enemies[i]->x_cor;
+        int old_y = enemies[i]->y_cor;
         if (direction_number == 0) {
             direction = "no";
         } else if (direction_number == 1) {
@@ -90,7 +145,17 @@ void Floor::move_enemies() {
         } else if (direction_number == 7) {
             direction = "sw";
         }
-        this->enemies[i]->move(direction);
+        // move needs to change the enemy's x_cor and y_cor to the new location
+        // if it can move
+        pair<int, int> location = new_direction(direction, old_x, old_y);
+        int new_x = location.first;
+        int new_y = location.second;
+        if (get_symbol(new_x, new_y) == '.') {
+            this->enemies[i]->x_cor = new_x;
+            this->enemies[i]->y_cor = new_y;
+            set_symbol(old_x, old_y, '.');
+            set_symbol(new_x, new_y, this->enemies[i]->get_symbol());
+        }
     }
 }
 
@@ -108,23 +173,23 @@ std::pair<int, int> Floor::get_random_position(int chamber) {
         nY = (rand() % 4) + 3;
     }
     else if (chamber == 2) {
-        nX = (rand () % 21) + 4;
-        nY = (rand () % 7) + 15;
+        nX = (rand() % 21) + 4;
+        nY = (rand() % 7) + 15;
     }
     else if (chamber == 3) {
-        nX = (rand () % 39) + 37; 
-        nY = (rand () % 6) + 16;
+        nX = (rand() % 39) + 37; 
+        nY = (rand() % 6) + 16;
         if (nY >= 16 && nY <= 18 && nX >= 37 && nX <= 64) {
             get_random_position(chamber);
         }
     }
     else if (chamber == 4) {
-        nX = (rand () % 12) + 38;
-        nY = (rand () % 3) + 10;
+        nX = (rand() % 12) + 38;
+        nY = (rand() % 3) + 10;
     }
     else if (chamber == 5) {
-        nX = (rand () % 37) + 39;
-        nY = (rand () % 10) + 3;
+        nX = (rand() % 37) + 39;
+        nY = (rand() % 10) + 3;
         if ((nY >= 7 && nY <= 13 && nX >= 38 and nX <= 60) || 
             (nY >= 5 && nY <= 6 && nX >= 73 and nX <= 76) || 
             (nY >= 4 && nY <= 5 && nX >= 70 and nX <= 74) || 
@@ -145,7 +210,7 @@ void Floor::player_init(string race) {
     set_symbol(coord.first, coord.second, '@');
     CharacterCreator cc{};
     shared_ptr<Player> player_race;
-    player_race = cc.create_character_by_name(race, coord.first, coord.second, this, chamber);
+    player_race = cc.create_character_by_name(race, coord.first, coord.second, chamber);
     this->player = player_race;
 }
 
@@ -225,7 +290,7 @@ void Floor::generate_enemy() {
         }
         // this should be later use charactor_factory to create
         CharacterCreator cc{};
-        shared_ptr<Enemy> enemy = cc.create_character_by_name(type, coord.first, coord.second, this);
+        shared_ptr<Enemy> enemy = cc.create_character_by_name(type, coord.first, coord.second);
         this->enemies.push_back(enemy);
     }
 }
@@ -234,4 +299,33 @@ void Floor::generate_enemy() {
 void Floor::reset() {
     this->enemies.clear();
     this->items.clear();
+}
+
+void Floor::player_attack(string direction) {
+    pair<int, int> new_loc = new_direction(direction, this->player->x_cor, this->player->y_cor);
+    int new_x = new_loc.first;
+    int new_y = new_loc.second;
+    int new_loc_symbol = get_symbol(new_x, new_y);
+    // H = human
+    // W = dwarf
+    // O = orcs
+    // E = elf
+    // D = dragon
+    // M = merchant
+    // L = hafling
+
+    if (new_loc == 'H' || new_loc == 'W' || new_loc == 'O' || new_loc == 'E'
+        || new_loc == 'M' || new_loc == 'L' || new_loc == 'D') {
+        for (auto enemy: enemies) {
+            if (enemy->x_cor == new_x && enemy->y_cor == new_y) {
+                // int reverse_damage = this->player->attack(enemy);
+                // this->player->hp -= reverse_damage;
+                // int reverse_damage = enemy->attacked_by(*(this->player));
+                // this->player->hp -= reverse_damage;
+                this->player->attack_to(*(enemy));
+                enemy->attack_to(this->player);
+            }
+        }
+        int reverse_damage = this->player->attack();
+    }
 }

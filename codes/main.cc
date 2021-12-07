@@ -64,7 +64,8 @@ int main() {
             player->use_potion(command);
         } else if (command[0] == 'a') {
             command.erase();
-            player->attack(command);
+            floor->player_attack(command);
+            // player->attack(command);
         } else if (command == "r") {
             // restart game
         } else if (command == "q") {
@@ -73,12 +74,14 @@ int main() {
             // admit defeat and exit the game
         } else if (command == "f") {
             // stops enemies from moving until this key is pressed again
-        } else { 
-            player->move(command);
+        } else {
+            floor->move_player(command);
         }
 
         if (floor->level_up()) {
             floor->reset();
         }
+
+        floor->move_enemies();
     }
 }

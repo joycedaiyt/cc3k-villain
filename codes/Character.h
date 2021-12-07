@@ -19,26 +19,30 @@ using namespace std;
 class Floor;
 
 class Character {
-    public:
-    vector<shared_ptr<Potion>> potion_effects;
     int attack;
-    int defence;
-    Floor* floor;
+    int defense;
+    int max_hp;
+    int hp;
+    public:
+    vector<shared_ptr<Potion>> temp_potion_effects;
     char symbol;
     int x_cor;
     int y_cor;
-    int max_hp;
-    int hp;
-    Character(int x_cor, int y_cor, Floor* floor);
-    ~Character();
-    virtual void move(string s) = 0;
-    virtual int attacked_by(Character& c) = 0;
-    virtual int attack_to(Character& c) = 0;
+    int get_hp();
+    void set_hp(int hp);
+    int get_attack();
+    void set_attack(int attack);
+    int get_defense();
+    void set_defense(int defense);
+    int get_max_hp();
+    void set_max_hp(int max_hp);
+    void use_potion(shared_ptr<Potion> potion);
+    Character(int x_cor, int y_cor);
+    virtual ~Character() = 0;
+    virtual void attacked_by(Character& c);
+    virtual void attack_to(Character& c);
     // this function will return the symbol representing this character
     virtual char get_symbol() = 0;
-    
-    // this is called when you want to get hp value of a hero with the potion effect
-    virtual int get_hp();
 };
 
 #endif

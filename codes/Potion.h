@@ -26,9 +26,4 @@ private:
     bool used;
 };
 
-class PotionEffect :public Potion {
-public:
-    PotionEffect(int x, int y, string potion_type);
-};
-
 #endif

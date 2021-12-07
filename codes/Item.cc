@@ -6,11 +6,10 @@ Item::Item(int x, int y){
 	effect_val = 0;
 }
 
-const std::string& Item::get_effect_type()const{
+const std::string& Item::get_effect_type()const {
 	return effect_type;
 }
 
-int Item::get_effect_val() const{
+int Item::get_effect_val() const {
 	return effect_val;
 }
-

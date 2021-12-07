@@ -22,12 +22,12 @@ using namespace std;
 class Enemy: public Character {
     public:
     bool hostile;
-    Enemy(int x_cor, int y_cor, Floor* floor);
+    Enemy(int x_cor, int y_cor);
     ~Enemy();
-    virtual void move(string s);
+    // virtual bool move(int new_x, int new_y, char new_location);
     virtual char get_symbol() = 0;
-    virtual int attacked_by(Character& c) = 0;
-    virtual int attack_to(Character& c) = 0;
+    // virtual void attacked_by(Character& c);
+    // virtual void attack_to(Character& c);
 };
 
 #endif

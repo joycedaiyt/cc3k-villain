@@ -18,10 +18,10 @@ using namespace std;
 
 class Vampire: public Player {
     public:
-    Vampire(int x_cor, int y_cor, Floor* floor, int chamber);
+    Vampire(int x_cor, int y_cor, int chamber);
     ~Vampire();
-    int attacked_by(Character& c) override;
-    int attack_to(Character& c) override;
+    void attacked_by(Character& c) override;
+    void attack_to(Character& c) override;
 };
 
 #endif

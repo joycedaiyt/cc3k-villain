@@ -59,7 +59,11 @@ class Floor {
     // Determines if the player needs to be teleported to the next floor
     bool level_up();
     // this will randomly move all the enemies position
+
+    pair<int, int> new_direction(string direction, int old_x, int old_y);
     void move_enemies();
+    void move_player(string direction);
+    void player_attack(string command);
 };
 
 #endif

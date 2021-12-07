@@ -18,10 +18,12 @@ using namespace std;
 class Player: public Character {
     public:
     int chamber;
-    Player(int x_cor, int y_cor, Floor* floor, int chamber);
+    Player(int x_cor, int y_cor, int chamber);
     ~Player();
     char get_symbol() override;
-    void move(string s) override;
+    virtual void attack_to(Enemy& c);
+    virtual void attack_by(Enemy& c);
+    virtual bool move(int new_x, int new_y, char new_location) override;
 };
 
 #endif

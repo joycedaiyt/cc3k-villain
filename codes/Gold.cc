@@ -1,8 +1,7 @@
 #include "Gold.h"
 
-Gold::Gold(int x, int y, int type)
-    :Item(x, y){
-    gold_type = type;
+Gold::Gold(int x, int y, int effect_val)
+    :Item(x, y, effect_val){
     effect_type = "Gold"; 
     pickup = true;
 }
@@ -13,7 +12,7 @@ char Gold::get_symbol()
 }
 
 int Gold::get_gold_type() {
-    return this->gold_type;
+    // return this->gold_type;
 }
 
 void Gold::set_pickup(bool b)

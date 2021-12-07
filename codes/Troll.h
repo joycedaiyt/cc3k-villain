@@ -18,10 +18,10 @@ using namespace std;
 
 class Troll: public Player {
     public:
-    Troll(int x_cor, int y_cor, Floor* floor, int chamber);
+    Troll(int x_cor, int y_cor, int chamber);
     ~Troll();
-    int attacked_by(Character& c) override;
-    int attack_to(Character& c) override;
+    void attacked_by(Character& c) override;
+    void attack_to(Character& c) override;
 };
 
 

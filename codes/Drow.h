@@ -12,16 +12,15 @@
 #include <string>
 #include <utility>
 #include <vector>
-
-#include "Floor.h"
+#include "Player.h"
 using namespace std;
 
 class Drow: public Player {
     public:
-    Drow(int x_cor, int y_cor, Floor* floor, int chamber);
+    Drow(int x_cor, int y_cor, int chamber);
     ~Drow();
-    int attacked_by(Character& c) override;
-    int attack_to(Character& c) override;
+    void attacked_by(Character& c) override;
+    void attack_to(Character& c) override;
 };
 
 #endif

@@ -1,10 +1,10 @@
 #include "Merchant.h"
 
-Merchant::Merchant(int x_cor, int y_cor, Floor* floor): Enemy{x_cor, y_cor, floor} {
-    this->hp = 100;
-    this->max_hp = 100;
-    this->attack = 20;
-    this->defence = 30;
+Merchant::Merchant(int x_cor, int y_cor): Enemy{x_cor, y_cor} {
+    set_hp(100);
+    set_max_hp(100);
+    set_attack(20);
+    set_defense(30);
     this->hostile = false;
 } 
 

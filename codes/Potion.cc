@@ -11,9 +11,3 @@ char Potion::get_symbol()
 {
 	return 'P';
 }
-
-PotionEffect::PotionEffect(int x, int y, string potion_type)
-	:Potion(x, y, potion_type)
-{
-
-}
