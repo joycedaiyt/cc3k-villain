@@ -1,14 +1,14 @@
 #include "Floor.h"
 #include <stdlib.h>
 using namespace std;
-
+ 
 Floor::Floor(int floor_number):
     floor_number(floor_number) {
     // this is used to fill in the cell and create an empty map
     ifstream infile("empty_map.txt");
     char c;
     for (int i = 0; i < 25; ++i) {
-        vector<shared_ptr<Cell>> row;
+        vector<shared_ptr<Cell> > row;
         for (int j = 0; j < 79; ++j) {
             infile.get(c);
             shared_ptr<Cell> new_cell = make_shared<Cell>(c);
@@ -56,7 +56,11 @@ void Floor::render_graphics() {
 }
 
 void Floor::render_text() {
-    
+    cout << "Race: " << player->get_race() << " Gold: " << player->get_gold() << endl;
+    cout << "HP: " << player->get_hp() << endl;
+    cout << "Atk: "<< player->get_attack() << endl;
+    cout << "Def: "<< player->get_defense() << endl;
+    cout << "Action: " << endl;
 }
 
 int Floor::get_floor_number() {
@@ -204,7 +208,7 @@ std::pair<int, int> Floor::get_random_position(int chamber) {
 }
 
 // to be changed over to the Player class
-void Floor::player_init(string race) {
+void Floor::player_init(char race) {
     int chamber = rand() % 5 + 1;
     pair<int, int> coord = get_random_position(chamber);
     set_symbol(coord.first, coord.second, '@');

@@ -6,6 +6,7 @@ Drow::Drow(int x_cor, int y_cor, int chamber): Player{x_cor, y_cor, chamber} {
     set_max_hp(150);
     set_attack(25);
     set_defense(15);
+    set_race("Drow");
 } 
 
 Drow::~Drow() {}

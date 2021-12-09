@@ -49,7 +49,7 @@ class Floor {
     // it may be used when gold or potion is dropped from 
     void add_new_item(shared_ptr<Item>);
     // Randomly spawns map components
-    void player_init(string race);
+    void player_init(char race);
     void generate_stair();
     void generate_potion();
     void generate_gold();

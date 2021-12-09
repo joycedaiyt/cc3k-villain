@@ -23,7 +23,7 @@ int main() {
     cout << "v: vampire" << endl;
     cout << "t: troll" << endl;
     cout << "g: goblin" << endl;
-    string race;
+    char race;
     cin >> race;
     
     // this means create a floor with level at 1

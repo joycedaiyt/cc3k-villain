@@ -34,7 +34,7 @@ class CharacterCreator {
     // that character
     public:
     shared_ptr<Enemy> CharacterCreator::create_character_by_name(string character_name, int x_cord, int y_cord);
-    shared_ptr<Player> CharacterCreator::create_character_by_name(string character_name, int x_cord, int y_cord, int chamber_number);
+    shared_ptr<Player> CharacterCreator::create_character_by_name(char race, int x_cord, int y_cord, int chamber_number);
 };
 
 #endif

@@ -8,3 +8,7 @@ Player::~Player() {}
 char Player::get_symbol() {
     return '@';
 }
+
+int Player::get_gold() {
+    return gold;
+}

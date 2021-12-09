@@ -19,16 +19,16 @@ shared_ptr<Enemy> CharacterCreator::create_character_by_name(string character_na
     }
 }
 
-shared_ptr<Player> CharacterCreator::create_character_by_name(string character_name, int x_cord, int y_cord, int chamber_number) {
-    if (character_name == "drow") {
+shared_ptr<Player> CharacterCreator::create_character_by_name(char race, int x_cord, int y_cord, int chamber_number) {
+    if (race == 'd') {
         return make_shared<Drow>(x_cord, y_cord, chamber_number);
-    } else if (character_name == "shade") {
+    } else if (race == 's') {
         return make_shared<Shade>(x_cord, y_cord, chamber_number);
-    } else if (character_name == "vampire") {
+    } else if (race == 'v') {
         return make_shared<Vampire>(x_cord, y_cord, chamber_number);
-    } else if (character_name == "goblin") {
+    } else if (race == 'g') {
         return make_shared<Goblin>(x_cord, y_cord, chamber_number);
-    } else if (character_name == "troll") {
+    } else if (race == 't') {
         return make_shared<Troll>(x_cord, y_cord, chamber_number);
     }
 }

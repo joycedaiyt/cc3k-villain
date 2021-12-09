@@ -23,6 +23,7 @@ class Character {
     int defense;
     int max_hp;
     int hp;
+    string race;
     public:
     vector<shared_ptr<Potion>> temp_potion_effects;
     char symbol;
@@ -36,6 +37,8 @@ class Character {
     void set_defense(int defense);
     int get_max_hp();
     void set_max_hp(int max_hp);
+    void set_race(string race);
+    string get_race();
     void use_potion(shared_ptr<Potion> potion);
     Character(int x_cor, int y_cor);
     virtual ~Character() = 0;

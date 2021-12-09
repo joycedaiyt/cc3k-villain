@@ -56,6 +56,15 @@ void Character::set_max_hp(int max_hp) {
     this->max_hp = max_hp;
 }
 
+void Character::set_race(string r) {
+    race = r;
+}
+
+string Character::get_race() {
+    return race;
+}
+
+
 void Character::attacked_by(Character& c) {
     int attacker_attack = c.get_attack();
     // ceiling((100/(100 + Def(Defender))) ∗ Atk(Attacker))
