@@ -24,7 +24,7 @@ class CItemFactory
 {
 public:
     CItemFactory() = delete;
-	static std::shared_ptr<Item> Create(const std::string& szName, int x, int y)
+	static std::shared_ptr<Item> Create(const string& szName, int x, int y)
 	{
         std::shared_ptr<Item> pItem = nullptr;
         if(szName == "Gold")
@@ -60,4 +60,4 @@ public:
 };
 
 
-#endif  //ITEM_FACTORY_H
+#endif  

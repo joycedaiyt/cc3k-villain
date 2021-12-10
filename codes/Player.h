@@ -15,6 +15,8 @@
 #include "Character.h"
 using namespace std;
 
+class Enemy;
+
 class Player: public Character {
     public:
     int chamber;
@@ -23,9 +25,9 @@ class Player: public Character {
     ~Player();
     char get_symbol() override;
     int get_gold();
-    virtual void attack_to(Enemy& c);
-    virtual void attack_by(Enemy& c);
-    virtual bool move(int new_x, int new_y, char new_location) override;
+    virtual void attack_to(Enemy& e);
+    virtual void attack_by(Enemy& e);
+    // virtual bool move(int new_x, int new_y, char new_location) override;
 };
 
 #endif

@@ -57,7 +57,7 @@ void Character::set_max_hp(int max_hp) {
 }
 
 void Character::set_race(string r) {
-    race = r;
+    this->race = r;
 }
 
 string Character::get_race() {
@@ -65,16 +65,16 @@ string Character::get_race() {
 }
 
 
-void Character::attacked_by(Character& c) {
-    int attacker_attack = c.get_attack();
-    // ceiling((100/(100 + Def(Defender))) ∗ Atk(Attacker))
-    int damage = ceil((100/(100 + get_defense())) * attacker_attack);
-    set_hp(get_hp() - damage);    
-}
+// void Character::attacked_by(Character& c) {
+//     int attacker_attack = c.get_attack();
+//     // ceiling((100/(100 + Def(Defender))) ∗ Atk(Attacker))
+//     int damage = ceil((100/(100 + get_defense())) * attacker_attack);
+//     set_hp(get_hp() - damage);    
+// }
 
-void Character::attack_to(Character& c) {
-    c.attacked_by(*this);
-}
+// void Character::attack_to(Character& c) {
+//     c.attacked_by(*this);
+// }
 
 void Character::use_potion(shared_ptr<Potion> potion) {
     if (potion->effect_type == "RH") {

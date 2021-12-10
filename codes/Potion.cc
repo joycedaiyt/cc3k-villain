@@ -114,3 +114,4 @@ std::string WD::GetName()
 {
 	return "WD";
 }
+
