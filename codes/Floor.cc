@@ -264,7 +264,8 @@ void Floor::generate_gold() {
         } else {
             amount = 1;
         }
-        shared_ptr<Gold> gold = make_shared<Gold>(coord.first, coord.second, amount);
+        CItemFactory cif{};
+        shared_ptr<Item> gold = cif.Create("Gold", coord.first, coord.second, amount);
         items.emplace_back(gold);
     }
 }

@@ -20,10 +20,10 @@ class Gold: public Item{
 public:
     Gold(int x, int y, int value);
     Gold(int x, int y);
-    virtual char get_symbol();
-	int     get_gold_type();
-    void    set_pickup(bool b);
-    bool    get_pickup();
+    char get_symbol() override;
+	int get_gold_type();
+    void set_pickup(bool b);
+    bool get_pickup();
 
 public:
 	static std::string GetName();
