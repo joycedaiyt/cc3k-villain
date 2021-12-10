@@ -26,7 +26,7 @@ private:
     bool used;
 };
 
-class RH :public Potion , ItemFactoryHelper < RH >
+class RH :public Potion
 {
 public:
     RH(int x, int y);
@@ -36,7 +36,7 @@ public:
 
 };
 
-class BA :public Potion, ItemFactoryHelper < BA >
+class BA :public Potion
 {
 public:
     BA(int x, int y);
@@ -46,7 +46,7 @@ public:
 
 };
 
-class BD :public Potion, ItemFactoryHelper < BD >
+class BD :public Potion
 {
 public:
     BD(int x, int y);
@@ -56,7 +56,7 @@ public:
 
 };
 
-class PH :public Potion, ItemFactoryHelper < PH >
+class PH :public Potion
 {
 public:
     PH(int x, int y);
@@ -66,7 +66,7 @@ public:
 
 };
 
-class WA :public Potion, ItemFactoryHelper < WA >
+class WA :public Potion
 {
 public:
     WA(int x, int y);
@@ -76,7 +76,7 @@ public:
 
 };
 
-class WD :public Potion, ItemFactoryHelper < WD >
+class WD :public Potion
 {
 public:
     WD(int x, int y);

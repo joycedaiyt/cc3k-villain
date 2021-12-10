@@ -16,7 +16,7 @@
 
 using namespace std;
 
-class Gold: public Item, ItemFactoryHelper < Gold > {
+class Gold: public Item{
 public:
     Gold(int x, int y, int value);
     Gold(int x, int y);
