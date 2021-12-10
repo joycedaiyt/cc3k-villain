@@ -20,6 +20,7 @@ class Dwarf: public Enemy {
     public:
     Dwarf(int x_cor, int y_cor);
     ~Dwarf();
+    char get_symbol() override;
     void attacked_by(Character& c) override;
     void attack_to(Player& c);
 

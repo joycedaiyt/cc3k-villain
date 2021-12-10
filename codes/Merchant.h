@@ -20,6 +20,7 @@ class Merchant: public Enemy {
     public:
     Merchant(int x_cor, int y_cor);
     ~Merchant();
+    char get_symbol() override;
     void attacked_by(Character& c) override;
     void attack_to(Character& c) override;
 };

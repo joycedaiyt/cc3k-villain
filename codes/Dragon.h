@@ -20,6 +20,7 @@ class Dragon: public Enemy {
     public:
     Dragon(int x_cor, int y_cor);
     ~Dragon();
+    char get_symbol() override;
     void attacked_by(Character& c) override;
     void attack_to(Character& c) override;
 };

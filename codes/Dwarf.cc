@@ -14,3 +14,7 @@ void Dwarf::attack_to(Player& player) {
 	bool attack = rand() % 2;
 	if (attack) player.attacked_by(*this);
 }
+
+char Dwarf::get_symbol() {
+    return 'W';
+}

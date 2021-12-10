@@ -9,3 +9,7 @@ Halfling::Halfling(int x_cor, int y_cor): Enemy{x_cor, y_cor} {
 } 
 
 Halfling::~Halfling() {}
+
+char Halfling::get_symbol() {
+    return 'L';
+}

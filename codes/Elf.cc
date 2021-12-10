@@ -9,3 +9,7 @@ Elf::Elf(int x_cor, int y_cor): Enemy{x_cor, y_cor} {
 } 
 
 Elf::~Elf() {}
+
+char Elf::get_symbol() {
+    return 'E';
+}

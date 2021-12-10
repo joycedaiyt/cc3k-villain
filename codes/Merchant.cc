@@ -9,3 +9,7 @@ Merchant::Merchant(int x_cor, int y_cor): Enemy{x_cor, y_cor} {
 } 
 
 Merchant::~Merchant() {}
+
+char Merchant::get_symbol() {
+    return 'M';
+}

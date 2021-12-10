@@ -20,6 +20,7 @@ class Halfling: public Enemy {
     public:
     Halfling(int x_cor, int y_cor);
     ~Halfling();
+    char get_symbol() override;
     void attacked_by(Character& c) override;
     void attack_to(Character& c) override;
 };

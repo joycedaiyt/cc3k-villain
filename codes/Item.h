@@ -72,6 +72,12 @@ public:
 		return nullptr;
 	}
 
+	static std::map<std::string, CreateItem>& GetMap()
+	{
+		static std::map<std::string, CreateItem> s_map;
+		return s_map;
+	}
+	
 	static size_t GetKeys(std::vector<std::string>& arrKeys)
 	{
 		std::vector<std::string> arrTemp;
@@ -87,11 +93,6 @@ public:
 		return arrKeys.size();
 	}
 
-	static std::map<std::string, CreateItem>& GetMap()
-	{
-		static std::map<std::string, CreateItem> s_map;
-		return s_map;
-	}
 };
 
 template <typename T>

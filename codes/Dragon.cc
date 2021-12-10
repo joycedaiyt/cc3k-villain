@@ -9,3 +9,7 @@ Dragon::Dragon(int x_cor, int y_cor): Enemy{x_cor, y_cor} {
 } 
 
 Dragon::~Dragon() {}
+
+char Dragon::get_symbol() {
+    return 'D';
+}

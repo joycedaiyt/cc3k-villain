@@ -9,3 +9,7 @@ Orcs::Orcs(int x_cor, int y_cor): Enemy{x_cor, y_cor} {
 } 
 
 Orcs::~Orcs() {}
+
+char Orcs::get_symbol() {
+    return 'O';
+}

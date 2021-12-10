@@ -20,6 +20,7 @@ class Elf: public Enemy {
     public:
     Elf(int x_cor, int y_cor);
     ~Elf();
+    char get_symbol() override;
     int attacked_by(Character& c) override;
     int attack_to(Character& c) override;
 };

@@ -8,7 +8,7 @@ Floor::Floor(int floor_number):
     ifstream infile("empty_map.txt");
     char c;
     for (int i = 0; i < 25; ++i) {
-        vector<shared_ptr<Cell> > row;
+        vector<shared_ptr<Cell>> row;
         for (int j = 0; j < 79; ++j) {
             infile.get(c);
             shared_ptr<Cell> new_cell = make_shared<Cell>(c);
@@ -175,34 +175,30 @@ std::pair<int, int> Floor::get_random_position(int chamber) {
     if (chamber == 1) {
         nX = (rand() % 26) + 3;
         nY = (rand() % 4) + 3;
-    }
-    else if (chamber == 2) {
+    } else if (chamber == 2) {
         nX = (rand() % 21) + 4;
         nY = (rand() % 7) + 15;
-    }
-    else if (chamber == 3) {
+    } else if (chamber == 3) {
         nX = (rand() % 39) + 37; 
         nY = (rand() % 6) + 16;
         if (nY >= 16 && nY <= 18 && nX >= 37 && nX <= 64) {
-            get_random_position(chamber);
+            return get_random_position(chamber);
         }
-    }
-    else if (chamber == 4) {
+    } else if (chamber == 4) {
         nX = (rand() % 12) + 38;
         nY = (rand() % 3) + 10;
-    }
-    else if (chamber == 5) {
+    } else {
         nX = (rand() % 37) + 39;
         nY = (rand() % 10) + 3;
         if ((nY >= 7 && nY <= 13 && nX >= 38 and nX <= 60) || 
             (nY >= 5 && nY <= 6 && nX >= 73 and nX <= 76) || 
-            (nY >= 4 && nY <= 5 && nX >= 70 and nX <= 74) || 
-            (nY >= 2 && nY <= 4 && nX >= 62 and nX <= 76)) { 
-            get_random_position(chamber);
+            (nY >= 4 && nY <= 5 && nX >= 70 and nX <= 76) || 
+            (nY >= 3 && nY <= 4 && nX >= 62 and nX <= 76)) { 
+            return get_random_position(chamber);
         }
     }
     if (get_symbol(nX, nY) != '.') {
-        get_random_position(chamber);
+        return get_random_position(chamber);
     }
     return std::make_pair(nX, nY);
 }
@@ -288,14 +284,16 @@ void Floor::generate_enemy() {
         } else if (which <= 14) {
             type = "elf";
         } else if (which <= 16) {
-            type = "orc";
+            type = "orcs";
         } else {
             type = "merchant";
         }
         // this should be later use charactor_factory to create
         CharacterCreator cc{};
         shared_ptr<Enemy> enemy = cc.create_character_by_name(type, coord.first, coord.second);
+        cout << type << endl;
         this->enemies.push_back(enemy);
+        set_symbol(coord.first, coord.second, enemy->get_symbol());
     }
 }
 
