@@ -22,6 +22,7 @@ class Stair: public Item {
     int y_cor;
     public:
     Stair(int x, int y);
+    char get_symbol() override;
 };
 
 #endif

@@ -209,8 +209,7 @@ void Floor::player_init(char race) {
     pair<int, int> coord = get_random_position(chamber);
     set_symbol(coord.first, coord.second, '@');
     CharacterCreator cc{};
-    shared_ptr<Player> player_race;
-    player_race = cc.create_character_by_name(race, coord.first, coord.second, chamber);
+    shared_ptr<Player> player_race = cc.create_character_by_name(race, coord.first, coord.second, chamber);
     this->player = player_race;
 }
 
@@ -223,8 +222,9 @@ void Floor::generate_stair() {
             break;
         }
     }
+    CItemFactory cif{};
     pair<int, int> coord = get_random_position(chamber);
-    shared_ptr<Stair> stair = make_shared<Stair>(coord.first, coord.second);
+    shared_ptr<Item> stair = cif.Create("Stair", coord.first, coord.second);
     items.push_back(stair);
 }
 
@@ -291,7 +291,6 @@ void Floor::generate_enemy() {
         // this should be later use charactor_factory to create
         CharacterCreator cc{};
         shared_ptr<Enemy> enemy = cc.create_character_by_name(type, coord.first, coord.second);
-        cout << type << endl;
         this->enemies.push_back(enemy);
         set_symbol(coord.first, coord.second, enemy->get_symbol());
     }

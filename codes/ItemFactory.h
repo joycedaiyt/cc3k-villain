@@ -24,7 +24,7 @@ using namespace std;
 class CItemFactory {
 public:
     CItemFactory() = delete;
-    static std::shared_ptr<Item> Create(const std::string& szName, int x, int y， int value = 0)
+    static std::shared_ptr<Item> Create(const std::string szName, int x, int y, int value = 0)
 	{
         std::shared_ptr<Item> pItem = nullptr;
         if(szName == "Gold")

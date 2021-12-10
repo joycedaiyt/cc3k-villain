@@ -20,6 +20,7 @@
 #include "Player.h"
 #include "Character.h"
 #include "CharacterCreator.h"
+#include "ItemFactory.h"
 using namespace std;
 
 class Floor {
