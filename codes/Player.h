@@ -26,8 +26,7 @@ class Player: public Character {
     ~Player();
     char get_symbol() override;
     int get_gold();
-    virtual void attack_to(Enemy& e);
-    virtual void attack_by(Enemy& e);
+    void set_gold(int new_gold_count);
     // virtual bool move(int new_x, int new_y, char new_location) override;
 };
 

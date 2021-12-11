@@ -21,8 +21,8 @@ class Orcs: public Enemy {
     Orcs(int x_cor, int y_cor);
     ~Orcs();
     char get_symbol() override;
-    void attacked_by(Character& c) override;
-    void attack_to(Character& c) override;
+    // there might be dependency problem
+    void attack_to(Goblin& g);
 };
 
 #endif

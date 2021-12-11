@@ -22,7 +22,7 @@ class Elf: public Enemy {
     ~Elf();
     char get_symbol() override;
     int attacked_by(Character& c) override;
-    int attack_to(Character& c) override;
+    int attacked_by(Drow& c);
 };
 
 #endif

@@ -13,3 +13,10 @@ Orcs::~Orcs() {}
 char Orcs::get_symbol() {
     return 'O';
 }
+
+void Orcs::attack_to(Goblin& g) {
+    int additional_attack = get_attack() * 0.5;
+    set_attack(get_attack() + additional_attack);
+    g.attacked_by(*this);
+    set_attack(get_attack() - additional_attack);
+}
