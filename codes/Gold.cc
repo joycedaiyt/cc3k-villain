@@ -6,12 +6,10 @@ Gold::Gold(int x, int y, int value, bool pickup)
     effect_type = "Gold"; 
 }
 
-char Gold::get_symbol()
-{
+char Gold::get_symbol() {
     return 'G';
 }
 
-bool Gold::get_pickup()
-{
+bool Gold::get_pickup() {
     return pickup;
 }

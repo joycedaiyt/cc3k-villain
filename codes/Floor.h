@@ -12,59 +12,55 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include "Enemy.h"
+#include <random>
 #include "Cell.h"
-#include "Stair.h"
-#include "Item.h"
-#include "Gold.h"
-#include "Player.h"
-#include "Character.h"
 #include "CharacterCreator.h"
 #include "ItemFactory.h"
 using namespace std;
 
 class Floor {
-
     // new
     vector<vector<shared_ptr<Cell>>> cells;
-    vector<shared_ptr<Enemy> > enemies;
+    vector<shared_ptr<Enemy>> enemies;
+    vector<shared_ptr<Enemy>> dragons;
     vector<shared_ptr<Item>> items;
+    vector<string> used_potions;
     int floor_number;
 
     public:
     shared_ptr<Player> player;
     Floor(int floor_number);
-    ~Floor();
+    ~Floor() {}
+
     vector<shared_ptr<Character>> get_neighbouring_characters(shared_ptr<Character>);
     vector<shared_ptr<Item>> get_neighbouring_items(shared_ptr<Character>);
-    void render_graphics();
-    void render_text();
+
+    char get_symbol(int x_cor, int y_cor);
+    void set_symbol(int x_cor, int y_cor, char symbol); 
     int get_floor_number();
 
     std::pair<int, int> get_random_position(int chamber);
-
-    // this will return the correspoding symbol int the specificied cell
-    char get_symbol(int x_cor, int y_cor);
-    void set_symbol(int x_cor, int y_cor, char symbol);
-
-    // it may be used when gold or potion is dropped from 
-    void add_new_item(shared_ptr<Item>);
-    // Randomly spawns map components
-    void init(char race = 0);
     void player_init(char race = 0);
     void generate_stair();
     void generate_potion();
-    void generate_enemy();
+    bool spawn_dragon(int gold_x, int gold_y);
     void generate_gold();
-
-    // resets the floor back to its original empty form
+    void generate_enemy();    
+    void init(char race = 0);
     void reset();
-    
-    // this will randomly move all the enemies position
-    pair<int, int> new_direction(string direction, int old_x, int old_y);
-    void move_enemies();
+
+    std::pair<int, int> new_direction(string direction, int old_x, int old_y);
     void move_player(string direction);
+    void move_enemies();
+
+    void use_potion(string type);
+    void add_new_item(shared_ptr<Item>);
     void player_attack(string command);
+
+        
+    void render_graphics();
+    void render_text();
+
 };
 
 #endif

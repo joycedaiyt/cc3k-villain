@@ -1,20 +1,6 @@
 #ifndef TROLL_H
 #define TROLL_H
-#include <algorithm>
-#include <fstream>
-#include <iomanip>
-#include <iostream>
-#include <map>
-#include <memory>
-#include <set>
-#include <sstream>
-#include <stdexcept>
-#include <string>
-#include <utility>
-#include <vector>
-using namespace std;
-
-#include "Floor.h"
+#include "Player.h"
 
 class Troll: public Player {
     public:
@@ -23,6 +9,5 @@ class Troll: public Player {
     void attacked_by(Character& c) override;
     void attack_to(Character& c) override;
 };
-
 
 #endif

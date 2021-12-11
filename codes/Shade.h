@@ -1,20 +1,6 @@
 #ifndef SHADE_H
 #define SHADE_H
-#include <algorithm>
-#include <fstream>
-#include <iomanip>
-#include <iostream>
-#include <map>
-#include <memory>
-#include <set>
-#include <sstream>
-#include <stdexcept>
-#include <string>
-#include <utility>
-#include <vector>
-using namespace std;
-
-#include "Floor.h"
+#include "Player.h"
 
 class Shade: public Player {
     public:
@@ -23,6 +9,5 @@ class Shade: public Player {
     void attacked_by(Character& c) override;
     void attack_to(Character& c) override;
 };
-
 
 #endif

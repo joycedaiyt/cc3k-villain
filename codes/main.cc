@@ -9,11 +9,9 @@
 #include <stdexcept>
 #include <string>
 #include <utility>
-#include <vector> 
+#include <vector>
 #include "Floor.h"
 using namespace std;
-
-
 
 int main() {
     // this player pointer is first declared here and waiting for assignment 
@@ -52,14 +50,14 @@ int main() {
 
         floor->render_graphics();
         floor->render_text();
-
+        cout << "Make your next move!" << endl;
         // get player command
         string command;
         getline(cin, command);
 
         if (command[0] == 'u') {
-            command.erase();
-            player->use_potion(/*command*/);
+            command.erase(0, 2);
+            floor->use_potion(command);
         } else if (command[0] == 'a') {
             command.erase();
             floor->player_attack(command);
@@ -74,8 +72,10 @@ int main() {
             // stops enemies from moving until this key is pressed again
             if (enemy_move) {
                 enemy_move = false;
+                player->action = "Enemy movement is frozen";
             } else {
                 enemy_move = true;
+                player->action = "Enemy movement restored";
             }
         } else {
             floor->move_player(command);
@@ -85,4 +85,5 @@ int main() {
             floor->move_enemies();
         }
     }
+    delete floor;
 }

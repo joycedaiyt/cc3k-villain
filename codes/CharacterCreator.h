@@ -1,31 +1,20 @@
-#ifndef CharacterCreator_H
-#define CharacterCreator_H
-#include <algorithm>
-#include <fstream>
-#include <iomanip>
-#include <iostream>
-#include <map>
-#include <memory>
-#include <set>
-#include <sstream>
-#include <stdexcept>
-#include <string>
-#include <utility>
-#include <vector>
+#ifndef CHARACTERCREATOR_H
+#define CHARACTERCREATOR_H
+#include "Character.h"
 #include "Enemy.h"
-#include "Human.h"
+#include "Player.h"
+#include "Dragon.h"
+#include "Drow.h"
 #include "Dwarf.h"
 #include "Elf.h"
-#include "Orcs.h"
-#include "Merchant.h"
-#include "Merchant.h"
-#include "Dragon.h"
-#include "Halfling.h"
-#include "Drow.h"
-#include "Shade.h"
-#include "Vampire.h"
 #include "Goblin.h"
+#include "Halfling.h"
+#include "Human.h"
+#include "Merchant.h"
+#include "Orcs.h"
+#include "Shade.h"
 #include "Troll.h"
+#include "Vampire.h"
 
 class CharacterCreator {
     // it is used for creating different character
@@ -33,8 +22,8 @@ class CharacterCreator {
     // want to create and it will return a pointer of 
     // that character
     public:
-    shared_ptr<Enemy> CharacterCreator::create_character_by_name(string character_name, int x_cord, int y_cord);
-    shared_ptr<Player> CharacterCreator::create_character_by_name(char race, int x_cord, int y_cord, int chamber_number);
+    shared_ptr<Enemy> create_character_by_name(string character_name, int x_cord, int y_cord, int gold_x = 0, int gold_y = 0);
+    shared_ptr<Player> create_character_by_name(char race, int x_cord, int y_cord, int chamber_number);
 };
 
 #endif

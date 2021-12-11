@@ -2,7 +2,9 @@
 
 Stair::Stair(int x, int y):
     Item{x, y} {}
-    
-char Stair::get_symbol() override {
+
+Stair::~Stair() {}
+
+char Stair::get_symbol() {
     return '\\';
 }

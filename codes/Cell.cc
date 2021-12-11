@@ -1,4 +1,3 @@
 #include "Cell.h"
 
-Cell::Cell(char type):
-    type{ type } {}
+Cell::Cell(char type): type(type) {}
