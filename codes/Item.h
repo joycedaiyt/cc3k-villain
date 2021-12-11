@@ -22,12 +22,9 @@ public:
 public:
 	// this return the symbol for the for renderring
     virtual char get_symbol() = 0;
-	virtual const std::string& get_effect_type()const;
+	virtual std::string get_effect_type();
     virtual void set_effect_val(int val);
-	virtual int get_effect_val()const;
-
-public:
-	static std::string GetName();
+	virtual int get_effect_val() const;
 	
 public:
 	int x_cor;

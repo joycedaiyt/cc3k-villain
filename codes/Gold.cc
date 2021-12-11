@@ -7,11 +7,6 @@ Gold::Gold(int x, int y, int value)
     pickup = true;
 }
 
-Gold::Gold(int x, int y)
-	: Item(x, y) {
-
-}
-
 char Gold::get_symbol()
 {
     return 'G';
@@ -30,9 +25,4 @@ void Gold::set_pickup(bool b)
 bool Gold::get_pickup()
 {
     return pickup;
-}
-
-std::string Gold::GetName()
-{
-    return "Gold";
 }

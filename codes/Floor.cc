@@ -247,7 +247,8 @@ void Floor::generate_potion() {
         } else {
             type = "WD";
         }
-        shared_ptr<Potion> potion = make_shared<Potion>(coord.first, coord.second, type);
+        CItemFactory cif{};
+        shared_ptr<Item> potion = cif.Create(type, coord.first, coord.second);
         items.push_back(potion);
     }
 }
@@ -307,7 +308,7 @@ void Floor::player_attack(string direction) {
     pair<int, int> new_loc = new_direction(direction, this->player->x_cor, this->player->y_cor);
     int new_x = new_loc.first;
     int new_y = new_loc.second;
-    int new_loc_symbol = get_symbol(new_x, new_y);
+    char new_loc_symbol = get_symbol(new_x, new_y);
     // H = human
     // W = dwarf
     // O = orcs

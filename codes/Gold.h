@@ -19,14 +19,10 @@ using namespace std;
 class Gold: public Item{
 public:
     Gold(int x, int y, int value);
-    Gold(int x, int y);
     char get_symbol() override;
 	int get_gold_type();
     void set_pickup(bool b);
     bool get_pickup();
-
-public:
-	static std::string GetName();
 
 private:
     bool    pickup;
