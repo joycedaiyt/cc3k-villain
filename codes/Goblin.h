@@ -15,11 +15,12 @@
 #include "Player.h"
 using namespace std;
 
+class Orcs;
+
 class Goblin: public Player {
     public:
     Goblin(int x_cor, int y_cor, int chamber);
     ~Goblin();
-    void attacked_by(Character& c) override;
     void attack_to(Character& c) override;
 };
 

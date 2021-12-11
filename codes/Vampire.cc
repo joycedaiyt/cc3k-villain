@@ -9,3 +9,15 @@ Vampire::Vampire(int x_cor, int y_cor, int chamber): Player{x_cor, y_cor, chambe
 } 
 
 Vampire::~Vampire() {}
+
+void Vampire::attack_to(Character& c) {
+    int damage = c.attacked_by(*this);
+    if (damage > 0) {
+        set_hp(get_hp() + 5);
+    }
+}
+
+void Vampire::attack_to(Dwarf& c) {
+    c.attacked_by(*this);
+    set_hp(get_hp() - 5);
+}

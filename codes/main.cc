@@ -57,7 +57,7 @@ int main() {
 
         if (command[0] == 'u') {
             command.erase();
-            player->use_potion(command);
+            player->use_potion(/*command*/);
         } else if (command[0] == 'a') {
             command.erase();
             floor->player_attack(command);

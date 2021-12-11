@@ -42,8 +42,8 @@ class Character {
     void use_potion(shared_ptr<Potion> potion);
     Character(int x_cor, int y_cor);
     virtual ~Character() = 0;
-    // virtual void attacked_by(Character& c);
-    // virtual void attack_to(Character& c);
+    virtual int attacked_by(Character& c);
+    virtual void attack_to(Character& c);
     // this function will return the symbol representing this character
     virtual char get_symbol() = 0;
 };

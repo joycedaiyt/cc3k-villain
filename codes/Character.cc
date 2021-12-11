@@ -64,17 +64,17 @@ string Character::get_race() {
     return race;
 }
 
+int Character::attacked_by(Character& c) {
+    int attacker_attack = c.get_attack();
+    // ceiling((100/(100 + Def(Defender))) ∗ Atk(Attacker))
+    int damage = ceil((100/(100 + get_defense())) * attacker_attack);
+    set_hp(get_hp() - damage);
+    return damage;
+}
 
-// void Character::attacked_by(Character& c) {
-//     int attacker_attack = c.get_attack();
-//     // ceiling((100/(100 + Def(Defender))) ∗ Atk(Attacker))
-//     int damage = ceil((100/(100 + get_defense())) * attacker_attack);
-//     set_hp(get_hp() - damage);    
-// }
-
-// void Character::attack_to(Character& c) {
-//     c.attacked_by(*this);
-// }
+void Character::attack_to(Character& c) {
+    int damage = c.attacked_by(*this);
+}
 
 void Character::use_potion(shared_ptr<Potion> potion) {
     if (potion->effect_type == "RH") {

@@ -9,3 +9,11 @@ Goblin::Goblin(int x_cor, int y_cor, int chamber): Player{x_cor, y_cor, chamber}
 } 
 
 Goblin::~Goblin() {}
+
+void Goblin::attack_to(Character& c) {
+    int old_hp = c.get_hp();
+    int damage = c.attacked_by(*this);
+    if (damage > old_hp) {
+        set_gold(get_gold() + 5);
+    }
+}

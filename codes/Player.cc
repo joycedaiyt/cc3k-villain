@@ -14,14 +14,18 @@ int Player::get_gold() {
     return gold;
 }
 
-void Player::attack_by(Enemy& c) {
-    int attacker_attack = c.get_attack();
-    // ceiling((100/(100 + Def(Defender))) ∗ Atk(Attacker))
-    int damage = ceil((100/(100 + get_defense())) * attacker_attack);
-    set_hp(get_hp() - damage);    
+void Player::set_gold(int new_gold_count) {
+    this->gold = new_gold_count;
 }
 
-void Player::attack_to(Enemy& c) {
-    c.attacked_by(*this);
-}
+// void Player::attack_by(Enemy& c) {
+//     int attacker_attack = c.get_attack();
+//     // ceiling((100/(100 + Def(Defender))) ∗ Atk(Attacker))
+//     int damage = ceil((100/(100 + get_defense())) * attacker_attack);
+//     set_hp(get_hp() - damage);    
+// }
+
+// void Player::attack_to(Enemy& c) {
+//     c.attacked_by(*this);
+// }
 

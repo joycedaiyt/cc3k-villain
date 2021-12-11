@@ -32,7 +32,6 @@ Floor::~Floor() {
 
 void Floor::render_graphics() {
     // this should be moved to places after 
-    // this->move_enemies();
     
     // change all the items represent the cell
     for (int i = 0; i < this->items.size(); i++) {
@@ -72,6 +71,7 @@ void Floor::add_new_item(shared_ptr<Item> item) {
     
 }
 
+// get new position of pair (x, y)
 std::pair<int, int> Floor::new_direction(string direction, int old_x, int old_y) {
     int new_x = old_x;
     int new_y = old_y;
@@ -358,8 +358,17 @@ void Floor::player_attack(string direction) {
                 // this->player->hp -= reverse_damage;
                 // int reverse_damage = enemy->attacked_by(*(this->player));
                 // this->player->hp -= reverse_damage;
-                this->player->attack_to(*(enemy));
-                enemy->attack_to(this->player);
+                this->player->attack_to(*enemy);
+                enemy->attack_to(*(this->player));
+
+                // alert all merchant if attacking a merchant
+                if (enemy->get_symbol() == 'M') {
+                    for (auto e: enemies) {
+                        if (e->get_symbol() == 'M') {
+                            e->hostile = 1;
+                        }
+                    }
+                }
             }
         }
         // int reverse_damage = this->player->attack();
