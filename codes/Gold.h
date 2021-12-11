@@ -18,10 +18,9 @@ using namespace std;
 
 class Gold: public Item{
 public:
-    Gold(int x, int y, int value);
+    Gold(int x, int y, int value, bool pickup);
     char get_symbol() override;
-    void set_pickup(bool b);
-    bool get_pickup();
+    bool get_pickup() override;
 
 private:
     bool    pickup;

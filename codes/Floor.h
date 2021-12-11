@@ -50,17 +50,17 @@ class Floor {
     // it may be used when gold or potion is dropped from 
     void add_new_item(shared_ptr<Item>);
     // Randomly spawns map components
-    void player_init(char race);
+    void init(char race = 0);
+    void player_init(char race = 0);
     void generate_stair();
     void generate_potion();
-    void generate_gold();
     void generate_enemy();
-    // time to level up !!!!!!!!!
-    void reset();
-    // Determines if the player needs to be teleported to the next floor
-    bool level_up();
-    // this will randomly move all the enemies position
+    void generate_gold();
 
+    // resets the floor back to its original empty form
+    void reset();
+    
+    // this will randomly move all the enemies position
     pair<int, int> new_direction(string direction, int old_x, int old_y);
     void move_enemies();
     void move_player(string direction);

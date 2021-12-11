@@ -21,15 +21,16 @@
 
 using namespace std;
 
+
 class CItemFactory {
 public:
     CItemFactory() = delete;
-    static std::shared_ptr<Item> Create(const std::string szName, int x, int y, int value = 0)
-	{
+    static std::shared_ptr<Item> Create(const std::string szName, int x, int y, int value = 0, bool pickup = 0) {
         std::shared_ptr<Item> pItem = nullptr;
         if(szName == "Gold")
         {
-             pItem = std::make_shared<Gold>(x, y, value);
+            cout << "factory: " << pickup << endl;
+            pItem = std::make_shared<Gold>(x, y, value, pickup);
         }
         else if(szName == "RH")
         {
@@ -64,4 +65,4 @@ public:
 };
 
 
-#endif  //ITEM_FACTORY_H
+#endif

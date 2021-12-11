@@ -17,3 +17,7 @@ void Item::set_effect_val(int val) {
 int Item::get_effect_val() const {
 	return effect_val;
 }
+
+bool Item::get_pickup() {
+	return true;
+}

@@ -21,6 +21,7 @@ class Player: public Character {
     public:
     int chamber;
     int gold;
+    char prev_loc;
     Player(int x_cor, int y_cor, int chamber);
     ~Player();
     char get_symbol() override;

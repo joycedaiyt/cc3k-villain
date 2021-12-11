@@ -29,17 +29,14 @@ int main() {
     // this means create a floor with level at 1
     Floor* floor = new Floor(1);
     // this part is assigning the correct player type to the main character
-    floor->player_init(race);
     // generates all the components of the floor
     // generating order:
     // player -> stairs -> potion -> gold -> enemy
-    floor->generate_stair();
-    floor->generate_potion();
-    floor->generate_gold();
-    floor->generate_enemy();
+    floor->init(race);
     shared_ptr<Player> player = floor->player;
 
     // this is the main game loop
+    bool enemy_move = true;
     while(!cin.eof()) {
         // this part determine if we need to break out of the game loop
         if (player->get_hp() <= 0) {
@@ -73,14 +70,17 @@ int main() {
             // admit defeat and exit the game
         } else if (command == "f") {
             // stops enemies from moving until this key is pressed again
+            if (enemy_move) {
+                enemy_move = false;
+            } else {
+                enemy_move = true;
+            }
         } else {
             floor->move_player(command);
         }
 
-        if (floor->level_up()) {
-            floor->reset();
+        if (enemy_move) {
+            floor->move_enemies();
         }
-
-        floor->move_enemies();
     }
 }

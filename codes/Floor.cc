@@ -105,29 +105,39 @@ void Floor::move_player(string direction) {
     pair<int, int> location = new_direction(direction, old_x, old_y);
     int new_x = location.first;
     int new_y = location.second;
-    char new_loc_symbol = get_symbol(new_x, new_y);
-    if (new_loc_symbol == '.' || new_loc_symbol == 'G' || 
-        new_loc_symbol == '#'|| new_loc_symbol == '+') {
+    char new_sym = get_symbol(new_x, new_y);
+    bool walk = false;
+    if (new_sym == '.' || new_sym == '#' || new_sym == '+') {
+        walk = true;
+    } else if (new_sym == 'G') {
+        for (int i = 0; i < this->items.size(); ++i) {
+            if (new_x == this->items[i]->x_cor && new_y == this->items[i]->y_cor && items[i]->get_pickup()) {
+                player->gold += this->items[i]->get_effect_val();
+                items.erase(items.begin() + i);
+                walk = true;
+            }
+        }
+    } else if (new_sym == '\\') {
+        reset();
+        init();
+        floor_number += 1;
+        player->prev_loc = '.';
+    }
+    if (walk) {
+        set_symbol(old_x, old_y, player->prev_loc);
         this->player->x_cor = new_x;
         this->player->y_cor = new_y;
-        set_symbol(old_x, old_y, '.');
         set_symbol(new_x, new_y, '@');
-        
-    // if player's new direction has gold
-    // if player's new direction has potion
-        if (new_loc_symbol == 'G') {
-            for (int i = 0; i < this->items.size(); ++i) {
-                if (new_x == this->items[i]->x_cor && new_y == this->items[i]->y_cor) {
-                    int delta_gold = this->items[i]->get_effect_val();
-                    
-                }
-            }
+        if (new_sym == 'G') {
+            this->player->prev_loc = '.';
+        } else {
+            this->player->prev_loc = new_sym;
         }
     }
 }
 
 void Floor::move_enemies() {
-    for (int i; i < this->enemies.size(); ++i) {
+    for (int i = 0; i < this->enemies.size(); ++i) {
         int direction_number = rand() % 8;
         string direction;
         int old_x = enemies[i]->x_cor;
@@ -208,9 +218,16 @@ void Floor::player_init(char race) {
     int chamber = rand() % 5 + 1;
     pair<int, int> coord = get_random_position(chamber);
     set_symbol(coord.first, coord.second, '@');
-    CharacterCreator cc{};
-    shared_ptr<Player> player_race = cc.create_character_by_name(race, coord.first, coord.second, chamber);
-    this->player = player_race;
+    if (race != 0) {
+        CharacterCreator cc{};
+        shared_ptr<Player> player_race;
+        player_race = cc.create_character_by_name(race, coord.first, coord.second, chamber);
+        this->player = player_race;
+    } else {
+        this->player->chamber = chamber;
+        this->player->x_cor = coord.first;
+        this->player->y_cor = coord.second;
+    }
 }
 
 // Randomly spawns map components
@@ -255,6 +272,7 @@ void Floor::generate_potion() {
 
 void Floor::generate_gold() {
     for (int i = 0; i < 10; i++) {
+        bool pickup = true;
         int chamber = rand() % 5 + 1;
         pair<int, int> coord = get_random_position(chamber);
         int amount = rand() % 8 + 1;
@@ -262,11 +280,12 @@ void Floor::generate_gold() {
             amount = 2;
         } else if (amount <= 6) {
             amount = 6;
+            pickup = false;
         } else {
             amount = 1;
         }
         CItemFactory cif{};
-        shared_ptr<Item> gold = cif.Create("Gold", coord.first, coord.second, amount);
+        shared_ptr<Item> gold = cif.Create("Gold", coord.first, coord.second, amount, pickup);
         items.push_back(gold);
     }
 }
@@ -298,10 +317,24 @@ void Floor::generate_enemy() {
     }
 }
 
-// time to level up !!!!!!!!!
+void Floor::init(char race) {
+    player_init(race);
+    generate_stair();
+    generate_potion();
+    generate_enemy();
+    generate_gold();
+}
+
 void Floor::reset() {
+    for (auto enemy: enemies) {
+        set_symbol(enemy->x_cor, enemy->y_cor, '.');
+    }
+    for (auto item: items) {
+        set_symbol(item->x_cor, item->y_cor, '.');
+    }
     this->enemies.clear();
     this->items.clear();
+    set_symbol(player->x_cor, player->y_cor, '.');
 }
 
 void Floor::player_attack(string direction) {
