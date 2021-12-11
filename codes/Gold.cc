@@ -12,11 +12,6 @@ char Gold::get_symbol()
     return 'G';
 }
 
-int Gold::get_gold_type() {
-    //return this->gold_type;
-    return 0;
-}
-
 void Gold::set_pickup(bool b)
 {
     pickup = b;

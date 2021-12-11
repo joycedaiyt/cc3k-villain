@@ -20,7 +20,6 @@ class Gold: public Item{
 public:
     Gold(int x, int y, int value);
     char get_symbol() override;
-	int get_gold_type();
     void set_pickup(bool b);
     bool get_pickup();
 

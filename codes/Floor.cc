@@ -72,29 +72,29 @@ void Floor::add_new_item(shared_ptr<Item> item) {
     
 }
 
-pair<int, int> Floor::new_direction(string direction, int old_x, int old_y) {
+std::pair<int, int> Floor::new_direction(string direction, int old_x, int old_y) {
     int new_x = old_x;
     int new_y = old_y;
     if (direction == "no") {
-        new_y += 1;
-    } else if (direction == "so") {
         new_y -= 1;
+    } else if (direction == "so") {
+        new_y += 1;
     } else if (direction == "ea") {
         new_x +=1 ;
     } else if (direction == "we") {
         new_x -= 1;
     } else if (direction == "ne") {
         new_x += 1;
-        new_y += 1;
+        new_y -= 1;
     } else if (direction == "nw") {
-        new_x += 1;
+        new_x -= 1;
         new_y -= 1;
     } else if (direction == "se") {
-        new_x -= 1;
+        new_x += 1;
         new_y += 1;
     } else if (direction == "sw") {
         new_x -= 1;
-        new_y -= 1;
+        new_y += 1;
     }
     return make_pair(new_x, new_y);
 }
@@ -106,7 +106,8 @@ void Floor::move_player(string direction) {
     int new_x = location.first;
     int new_y = location.second;
     char new_loc_symbol = get_symbol(new_x, new_y);
-    if (new_loc_symbol == '.' || new_loc_symbol == 'G') {
+    if (new_loc_symbol == '.' || new_loc_symbol == 'G' || 
+        new_loc_symbol == '#'|| new_loc_symbol == '+') {
         this->player->x_cor = new_x;
         this->player->y_cor = new_y;
         set_symbol(old_x, old_y, '.');
@@ -114,16 +115,15 @@ void Floor::move_player(string direction) {
         
     // if player's new direction has gold
     // if player's new direction has potion
-        if (new_loc_symbol = 'G') {
+        if (new_loc_symbol == 'G') {
             for (int i = 0; i < this->items.size(); ++i) {
                 if (new_x == this->items[i]->x_cor && new_y == this->items[i]->y_cor) {
-                    int delta_gold = this->items[i]->get_gold_type();
+                    int delta_gold = this->items[i]->get_effect_val();
                     
                 }
             }
         }
-    } 
-
+    }
 }
 
 void Floor::move_enemies() {

@@ -34,14 +34,13 @@ int main() {
     // generating order:
     // player -> stairs -> potion -> gold -> enemy
     floor->generate_stair();
-    floor->generate_enemy();
     floor->generate_potion();
     floor->generate_gold();
-    
+    floor->generate_enemy();
     shared_ptr<Player> player = floor->player;
 
     // this is the main game loop
-    while(true) {
+    while(!cin.eof()) {
         // this part determine if we need to break out of the game loop
         if (player->get_hp() <= 0) {
             cout << "you lose" << endl;
