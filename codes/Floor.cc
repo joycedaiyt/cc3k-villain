@@ -106,7 +106,7 @@ void Floor::move_player(string direction) {
     int new_x = location.first;
     int new_y = location.second;
     char new_loc_symbol = get_symbol(new_x, new_y);
-    if (new_loc_symbol == '.' || new_loc_symbol = 'G') {
+    if (new_loc_symbol == '.' || new_loc_symbol == 'G') {
         this->player->x_cor = new_x;
         this->player->y_cor = new_y;
         set_symbol(old_x, old_y, '.');
@@ -267,7 +267,7 @@ void Floor::generate_gold() {
         }
         CItemFactory cif{};
         shared_ptr<Item> gold = cif.Create("Gold", coord.first, coord.second, amount);
-        items.emplace_back(gold);
+        items.push_back(gold);
     }
 }
 
@@ -308,7 +308,7 @@ void Floor::player_attack(string direction) {
     pair<int, int> new_loc = new_direction(direction, this->player->x_cor, this->player->y_cor);
     int new_x = new_loc.first;
     int new_y = new_loc.second;
-    char new_loc_symbol = get_symbol(new_x, new_y);
+    char new_sym = get_symbol(new_x, new_y);
     // H = human
     // W = dwarf
     // O = orcs
@@ -317,8 +317,8 @@ void Floor::player_attack(string direction) {
     // M = merchant
     // L = hafling
 
-    if (new_loc == 'H' || new_loc == 'W' || new_loc == 'O' || new_loc == 'E'
-        || new_loc == 'M' || new_loc == 'L' || new_loc == 'D') {
+    if (new_sym == 'H' || new_sym == 'W' || new_sym == 'O' || new_sym == 'E' || 
+        new_sym == 'M' || new_sym == 'L' || new_sym == 'D') {
         for (auto enemy: enemies) {
             if (enemy->x_cor == new_x && enemy->y_cor == new_y) {
                 // int reverse_damage = this->player->attack(enemy);
@@ -329,6 +329,6 @@ void Floor::player_attack(string direction) {
                 enemy->attack_to(this->player);
             }
         }
-        int reverse_damage = this->player->attack();
+        // int reverse_damage = this->player->attack();
     }
 }

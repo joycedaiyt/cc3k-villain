@@ -27,7 +27,7 @@ class Floor {
 
     // new
     vector<vector<shared_ptr<Cell>>> cells;
-    vector<shared_ptr<Enemy>> enemies;
+    vector<shared_ptr<Enemy> > enemies;
     vector<shared_ptr<Item>> items;
     int floor_number;
 
