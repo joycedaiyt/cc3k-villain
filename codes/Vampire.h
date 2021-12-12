@@ -7,8 +7,7 @@ class Vampire: public Player {
     Vampire(int x_cor, int y_cor, int chamber);
     ~Vampire();
     void set_hp(int hp) override;
-    void attack_to(Character& c) override;
-    void attack_to(Dwarf& c);
+    pair<bool, int> attack_to(Character& c) override;
 };
 
 #endif

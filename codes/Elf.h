@@ -7,8 +7,7 @@ class Elf: public Enemy {
     Elf(int x_cor, int y_cor);
     ~Elf();
     char get_symbol() override;
-    int attacked_by(Character& c) override;
-    int attacked_by(Drow& c);
+    pair<bool, int> attack_to(Character& c) override;
 };
 
 #endif

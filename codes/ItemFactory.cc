@@ -5,22 +5,22 @@ std::shared_ptr<Item> ItemFactory::Create(const std::string szName, int x, int y
     if (szName == "Gold") {
         pItem = std::make_shared<Gold>(x, y, value, pickup);
     }
-    else if (szName == "RH") {
+    else if (szName == "0") {
         pItem = std::make_shared<RH>(x, y);
     }
-    else if (szName == "BA") {
+    else if (szName == "1") {
         pItem = std::make_shared<BA>(x, y);
     }
-    else if (szName == "BD") {
+    else if (szName == "2") {
         pItem = std::make_shared<BD>(x, y);
     }
-    else if (szName == "PH") {
+    else if (szName == "3") {
         pItem = std::make_shared<PH>(x, y);
     }
-    else if (szName == "WA") {
+    else if (szName == "4") {
         pItem = std::make_shared<WA>(x, y);
     }
-    else if (szName == "WD") {
+    else if (szName == "5") {
         pItem = std::make_shared<WD>(x, y);
     }
     else if (szName == "Stair") {

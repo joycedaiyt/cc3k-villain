@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <cmath>
 using namespace std;
 
 class Character {
@@ -29,8 +30,9 @@ class Character {
     void set_max_hp(int max_hp);
     void set_race(string r);
     string get_race();
-    virtual int attacked_by(Character& c);
-    virtual void attack_to(Character& c);
+    virtual pair<bool, int> attacked_by(Character& c);
+    virtual pair<bool, int> attack_to(Character& c);
+    virtual int on_death();
     // this function will return the symbol representing this character
     virtual char get_symbol() = 0;
 };

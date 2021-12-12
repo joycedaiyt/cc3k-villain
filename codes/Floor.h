@@ -43,10 +43,10 @@ class Floor {
     void player_init(char race = 0);
     void generate_stair();
     void generate_potion();
-    bool spawn_dragon(int gold_x, int gold_y);
     void generate_gold();
     void generate_enemy();    
     void init(char race = 0);
+    void init_with_map(char race, string filename);
     void reset();
 
     std::pair<int, int> new_direction(string direction, int old_x, int old_y);
@@ -56,6 +56,7 @@ class Floor {
     void use_potion(string type);
     void add_new_item(shared_ptr<Item>);
     void player_attack(string command);
+    void enemy_attack();
 
         
     void render_graphics();

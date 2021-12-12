@@ -6,7 +6,7 @@ class Goblin: public Player {
     public:
     Goblin(int x_cor, int y_cor, int chamber);
     ~Goblin();
-    void attack_to(Character& c) override;
+    pair<bool, int> attacked_by(Character& c) override;
 };
 
 #endif

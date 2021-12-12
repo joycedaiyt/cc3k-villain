@@ -7,8 +7,8 @@ class Merchant: public Enemy {
     Merchant(int x_cor, int y_cor);
     ~Merchant();
     char get_symbol() override;
-    int attacked_by(Character& c) override;
-    void attack_to(Character& c) override;
+    pair<bool, int> attacked_by(Character& c) override;
+    pair<bool, int> attack_to(Character& c) override;
 };
 
 #endif

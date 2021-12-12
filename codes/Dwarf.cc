@@ -5,6 +5,7 @@
     set_hp(100);
     set_attack(20);
     set_defense(30);
+    set_race("Dwarf");
     this->hostile = true;
 }
 

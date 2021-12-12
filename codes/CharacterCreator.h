@@ -22,7 +22,7 @@ class CharacterCreator {
     // want to create and it will return a pointer of 
     // that character
     public:
-    shared_ptr<Enemy> create_character_by_name(string character_name, int x_cord, int y_cord, int gold_x = 0, int gold_y = 0);
+    shared_ptr<Enemy> create_character_by_name(string race, int x_cord, int y_cord, int gold_x = 0, int gold_y = 0);
     shared_ptr<Player> create_character_by_name(char race, int x_cord, int y_cord, int chamber_number);
 };
 

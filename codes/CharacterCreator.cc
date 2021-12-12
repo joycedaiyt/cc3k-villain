@@ -1,20 +1,20 @@
 #include "CharacterCreator.h"
 using namespace std;
 
-shared_ptr<Enemy> CharacterCreator::create_character_by_name(string character_name, int x_cord, int y_cord, int gold_x, int gold_y) {
-    if (character_name == "human") {
+shared_ptr<Enemy> CharacterCreator::create_character_by_name(string race, int x_cord, int y_cord, int gold_x, int gold_y) {
+    if (race == "H") {
         return make_shared<Human>(x_cord, y_cord);
-    } else if (character_name == "dwarf") {
+    } else if (race == "W") {
         return make_shared<Dwarf>(x_cord, y_cord);
-    } else if (character_name == "elf") {
+    } else if (race == "E") {
         return make_shared<Elf>(x_cord, y_cord);
-    } else if (character_name == "orcs") {
+    } else if (race == "O") {
         return make_shared<Orcs>(x_cord, y_cord);
-    } else if (character_name == "merchant") {
+    } else if (race == "M") {
         return make_shared<Merchant>(x_cord, y_cord);
-    } else if (character_name == "dragon") {
+    } else if (race == "D") {
         return make_shared<Dragon>(x_cord, y_cord, gold_x, gold_y);
-    } else if (character_name == "halfling") {
+    } else if (race == "L") {
         return make_shared<Halfling>(x_cord, y_cord);
     }
     return 0;

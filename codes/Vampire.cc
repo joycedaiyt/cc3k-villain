@@ -15,14 +15,12 @@ void Vampire::set_hp(int hp) {
     this->hp = hp;
 }
 
-void Vampire::attack_to(Character& c) {
-    int damage = c.attacked_by(*this);
-    if (damage > 0) {
+pair<bool, int> Vampire::attack_to(Character& c) {
+    string type = c.get_race();
+    if (type == "Dwarf") {
+        set_hp(get_hp() - 5);
+    } else {
         set_hp(get_hp() + 5);
     }
-}
-
-void Vampire::attack_to(Dwarf& c) {
-    c.attacked_by(*this);
-    set_hp(get_hp() - 5);
+    return c.attacked_by(*this);
 }

@@ -13,7 +13,17 @@
 #include "Floor.h"
 using namespace std;
 
-int main() {
+int main(int argc, char* argv[]) {
+
+    // command line argument that gives a map with characters and items
+    bool input_map = false;
+    string filename;
+    if (argc == 2) {
+        filename = argv[1];
+        input_map = true;
+    }
+
+
     // this player pointer is first declared here and waiting for assignment 
     // when the the user choose their hero
     Floor* floor;
@@ -24,12 +34,18 @@ int main() {
     cout << "v: vampire" << endl;
     cout << "t: troll" << endl;
     cout << "g: goblin" << endl;
-    char race;
-    cin >> race;
-   
+
     // this means create a floor with level at 1
     floor = new Floor(1);
-    floor->init(race);
+    if (input_map) {
+        string race;
+        cin >> race;
+        floor->init_with_map(race, filename);
+    } else {
+        char race;
+        cin >> race;
+        floor->init(race);
+    }
     shared_ptr<Player> player = floor->player;
 
     // this is the main game loop

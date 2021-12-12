@@ -1,4 +1,5 @@
 #include "Floor.h"
+#include <cmath>
 
 Floor::Floor(int floor_number):
     floor_number(floor_number) {
@@ -16,6 +17,57 @@ Floor::Floor(int floor_number):
         this->cells.push_back(row);
     }
 }
+
+void Floor::init_with_map(char race, string filename) {
+    ifstream infile(filename);
+    char c;
+    for (int i = 0; i < 25; ++i) {
+        for (int j = 0; j < 80; ++j) {
+            infile.get(c);
+            ItemFactory f{};
+            CharacterCreator cc{};
+            if (c == '0' || c == '1' || c == '2'
+                || c == '3' || c == '4' || c == '5') {
+                string s = "";
+                s.push_back(c);            
+                shared_ptr<Item> new_item = f.Create(s, j, i);
+                this->items.push_back(new_item);
+            } else if (c == '6') {
+                shared_ptr<Item> new_item = f.Create("Gold", j, i, 2);
+                this->items.push_back(new_item);
+            } else if (c == '7') {
+                shared_ptr<Item> new_item = f.Create("Gold", j, i, 1);
+                this->items.push_back(new_item);
+            } else if (c == '8') {
+                shared_ptr<Item> new_item = f.Create("Gold", j, i, 4);
+                this->items.push_back(new_item);
+            } else if (c == '9') {
+                // this is the dragon hoard
+                // shared_ptr<Item> new_item = f.Create("Gold", j, i, 6);
+                if (get_symbol(j + 1 , i) == '.') {
+                    shared_ptr<Item> new_item = f.Create("Gold", j, i, 6);
+                    shared_ptr<Enemy> new_dragon = cc.create_character_by_name("D", j + 1, i, j, i);
+                    this->dragons.push_back(new_dragon);
+                    this->items.push_back(new_item);
+                    j++;
+                }
+            } else if (c == '@') {
+                shared_ptr<Player> player_race = cc.create_character_by_name(race, j, i, 0);
+                this->player = player_race;
+            } else if (c == '\\') {
+                shared_ptr<Item> stair = f.Create("Stair", j, i);
+                this->items.push_back(stair);
+            } else if (c == 'D' || c == 'H' || c == 'W' || c == 'E' || c == 'O' || c == 'L' || c == 'M') {
+                string s  = "";
+                s.push_back(c);
+                shared_ptr<Enemy> new_enemy = cc.create_character_by_name(s, j, i);
+                this->enemies.push_back(new_enemy);
+            }
+        }
+        infile.get(c);
+    }
+}
+
 
 char Floor::get_symbol(int x_cor, int y_cor) {
     return this->cells[y_cor][x_cor]->type;
@@ -98,65 +150,12 @@ void Floor::generate_potion() {
         pair<int, int> coord = get_random_position(chamber);
         int which = rand() % 6;
         string type;
-        if (which == 0) {
-            type = "RH";
-        } else if (which == 1) {
-            type = "BA";
-        } else if (which == 2) {
-            type = "BD";
-        } else if (which == 3) {
-            type = "PH";
-        } else if (which == 4) {
-            type = "WA";
-        } else {
-            type = "WD";
-        }
+        type = to_string(which);
         ItemFactory cif{};
         shared_ptr<Item> potion = cif.Create(type, coord.first, coord.second);
         items.push_back(potion);
         set_symbol(coord.first, coord.second, potion->get_symbol());
     }
-}
-
-bool Floor::spawn_dragon(int gold_x, int gold_y) {
-    if (get_symbol(gold_x - 1, gold_y - 1) != '.' && get_symbol(gold_x, gold_y - 1) != '.' && 
-        get_symbol(gold_x + 1, gold_y - 1) != '.' && get_symbol(gold_x - 1, gold_y) != '.' && 
-        get_symbol(gold_x + 1, gold_y) != '.' && get_symbol(gold_x - 1, gold_y + 1) != '.' && 
-        get_symbol(gold_x, gold_y + 1) != '.' && get_symbol(gold_x + 1, gold_y + 1) != '.') {
-        return false;
-    }
-    int pos = rand() % 8 + 1;
-    int nX = gold_x;
-    int nY = gold_y;
-    if (pos == 1) {
-        nX -= 1;
-        nY -= 1;
-    } else if (pos == 2) {
-        nY -= 1;
-    } else if (pos == 3) {
-        nX += 1;
-        nY -= 1;
-    } else if (pos == 4) {
-        nX -= 1;
-    } else if (pos == 5) {
-        nX += 1;
-    } else if (pos == 6) {
-        nX -= 1;
-        nY += 1;
-    } else if (pos == 7) {
-        nY += 1;
-    } else if (pos == 8) {
-        nX += 1;
-        nY += 1;
-    }
-    if (get_symbol(nX, nY) != '.') {
-        return spawn_dragon(gold_x, gold_y);
-    }
-    CharacterCreator cc{};
-    shared_ptr<Enemy> dragon = cc.create_character_by_name("dragon", nX, nY, gold_x, gold_y);
-    dragons.push_back(dragon);
-    set_symbol(nX, nY, dragon->get_symbol());
-    return true;
 }
 
 void Floor::generate_gold() {
@@ -168,13 +167,17 @@ void Floor::generate_gold() {
         if (amount <= 5) {
             amount = 2;
         } else if (amount <= 6) {
-            bool spawned = spawn_dragon(coord.first, coord.second);
-            if (!spawned) {
+            // a dragon will always guard its hoard on the right
+            if (get_symbol(coord.first + 1, coord.second) != '.') {
                 i -= 1;
                 continue;
-            } 
+            }
             amount = 6;
             pickup = false;
+            CharacterCreator cc{};
+            shared_ptr<Enemy> dragon = cc.create_character_by_name("dragon", coord.first, coord.second, coord.first + 1, coord.second);
+            dragons.push_back(dragon);
+            set_symbol(coord.first + 1, coord.second, dragon->get_symbol());
         } else {
             amount = 1;
         }
@@ -280,7 +283,7 @@ void Floor::move_player(string direction) {
         init();
         floor_number += 1;
         level_up = true;
-    } 
+    }
     pair<vector<shared_ptr<Item>>, bool> walk = player->move(new_sym, new_x, new_y, items, used_potions, direction);
     if (!level_up) {
         this->items = walk.first;
@@ -379,6 +382,7 @@ void Floor::use_potion(string direction) {
 
 // it may be used when gold or potion is dropped from
 void Floor::add_new_item(shared_ptr<Item> item) {
+
     
 }
 
@@ -400,39 +404,26 @@ void Floor::render_text() {
     cout << "Action: " << player->action << endl;
 }
 
-
-// chamber number:
-//      1: top left
-//      2: bottom left
-//      3: bottom right
-//      4: middle 
-//      5: top right
-
-
 void Floor::player_attack(string direction) {
     pair<int, int> new_loc = new_direction(direction, this->player->x_cor, this->player->y_cor);
     int new_x = new_loc.first;
     int new_y = new_loc.second;
     char new_sym = get_symbol(new_x, new_y);
-    // H = human
-    // W = dwarf
-    // O = orcs
-    // E = elf
-    // D = dragon
-    // M = merchant
-    // L = hafling
-
     if (new_sym == 'H' || new_sym == 'W' || new_sym == 'O' || new_sym == 'E' || 
         new_sym == 'M' || new_sym == 'L' || new_sym == 'D') {
-        for (auto enemy: enemies) {
+        for (int i = 0; i < this->enemies.size(); ++i) {
+            auto enemy = this->enemies[i];
             if (enemy->x_cor == new_x && enemy->y_cor == new_y) {
-                // int reverse_damage = this->player->attack(enemy);
-                // this->player->hp -= reverse_damage;
-                // int reverse_damage = enemy->attacked_by(*(this->player));
-                // this->player->hp -= reverse_damage;
-                this->player->attack_to(*enemy);
-                enemy->attack_to(*(this->player));
-
+                pair<bool, int> result = this->player->attack_to(*enemy);
+                if (result.first && result.second != 0) {
+                    ItemFactory cif{};
+                    shared_ptr<Item> new_gold = cif.Create("gold", new_x, new_y, result.second, true);
+                    items.push_back(new_gold);
+                    set_symbol(new_x, new_y, 'G');
+                } else if (result.first) {
+                    enemies.erase(enemies.begin() + i);
+                    set_symbol(new_x, new_y, '.');
+                }
                 // alert all merchant if attacking a merchant
                 if (enemy->get_symbol() == 'M') {
                     for (auto e: enemies) {
@@ -443,6 +434,18 @@ void Floor::player_attack(string direction) {
                 }
             }
         }
-        // int reverse_damage = this->player->attack();
+    }
+}
+
+void Floor::enemy_attack() {
+    int player_x_cor = this->player->x_cor;
+    int player_y_cor = this->player->y_cor;
+    for (auto enemy: this->enemies) {
+        int enemy_x_cor = enemy->x_cor;
+        int enemy_y_cor = enemy->y_cor;
+        if (abs(player_y_cor - enemy_y_cor) <= 1 &&
+            abs(player_x_cor - enemy_y_cor) <= 1) {
+                enemy->attack_to(*player);
+        }
     }
 }

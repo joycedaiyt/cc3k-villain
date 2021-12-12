@@ -13,7 +13,15 @@
 #include "Floor.h"
 using namespace std;
 
-int main() {
+int main(int argc, char* argv[]) {
+
+    // command line argument that gives a map with characters and items
+    bool input_map = false;
+    string filename;
+    if (argc == 2) {
+        filename = argv[1];
+        input_map = true;
+    }
     // this player pointer is first declared here and waiting for assignment 
     // when the the user choose their hero
 
@@ -27,12 +35,16 @@ int main() {
     cin >> race;
     
     // this means create a floor with level at 1
-    Floor* floor = new Floor(1);
+    shared_ptr<Floor> floor = make_shared<Floor>(1);
+    if (input_map) {
+        floor->init_with_map(race, filename);
+    } else {
+        floor->init(race);
+    }
     // this part is assigning the correct player type to the main character
     // generates all the components of the floor
     // generating order:
     // player -> stairs -> potion -> gold -> enemy
-    floor->init(race);
     shared_ptr<Player> player = floor->player;
 
     // this is the main game loop
@@ -59,7 +71,7 @@ int main() {
             command.erase(0, 2);
             floor->use_potion(command);
         } else if (command[0] == 'a') {
-            command.erase();
+            command.erase(0, 2);
             floor->player_attack(command);
             // player->attack(command);
         } else if (command == "r") {
@@ -80,10 +92,11 @@ int main() {
         } else {
             floor->move_player(command);
         }
+        floor->enemy_attack();
 
         if (enemy_move) {
             floor->move_enemies();
         }
     }
-    delete floor;
+    // delete floor;
 }

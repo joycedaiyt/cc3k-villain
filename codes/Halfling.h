@@ -7,7 +7,7 @@ class Halfling: public Enemy {
     Halfling(int x_cor, int y_cor);
     ~Halfling();
     char get_symbol() override;
-    int attacked_by(Character& c) override;
+    pair<bool, int> attacked_by(Character& c) override;
 };
 
 #endif

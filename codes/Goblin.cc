@@ -11,10 +11,17 @@ Goblin::Goblin(int x_cor, int y_cor, int chamber): Player{x_cor, y_cor, chamber}
 
 Goblin::~Goblin() {}
 
-void Goblin::attack_to(Character& c) {
-    int old_hp = c.get_hp();
-    int damage = c.attacked_by(*this);
-    if (damage > old_hp) {
-        set_gold(get_gold() + 5);
+pair<bool, int> Goblin::attacked_by(Character& c) {
+    int attacker_attack = c.get_attack();
+    int damage = ceil((100 / (100 + get_defense())) * attacker_attack);
+    if (c.get_race() == "Orcs") {
+        damage *= 1.5;
+    }
+    if (get_hp() - damage <= 0) {
+        int drop = this->on_death();
+        return make_pair(true, drop);
+    } else {
+        set_hp(get_hp() - damage);
+        return make_pair(false, 0);
     }
 }
