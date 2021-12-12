@@ -9,6 +9,10 @@ int Player::get_gold() {
     return gold;
 }
 
+void Player::set_gold(int gold) {
+    this->gold = gold; 
+}
+
 Player::~Player() {}
 
 char Player::get_symbol() {

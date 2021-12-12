@@ -15,9 +15,9 @@ class Player: public Character {
     ~Player();
     int get_gold();
     virtual int use_potion(string type, int effect);
-    char get_symbol() override;
-    pair<vector<shared_ptr<Item>>, bool> move(char sym, int new_x, int new_y, vector<shared_ptr<Item>> items, 
+    virtual pair<vector<shared_ptr<Item>>, bool> move(char sym, int new_x, int new_y, vector<shared_ptr<Item>> items, 
                                                 vector<string> used_potions, string direction = "");
+    char get_symbol() override;
 };
  
 #endif
