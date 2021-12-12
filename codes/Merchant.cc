@@ -15,17 +15,8 @@ char Merchant::get_symbol() {
     return 'M';
 }
 
-// we have to find a way to notify other merchant!
-pair<bool, int> Merchant::attacked_by(Character& c) {
-    this->hostile = 1;
-    int attacker_attack = c.get_attack();
-    int damage = ceil((100/(100 + get_defense())) * attacker_attack);
-    if (get_hp() - damage <= 0) {
-        return make_pair(true, 4);
-    } else {
-        set_hp(get_hp() - damage);
-        return make_pair(false, 0);
-    }
+int Merchant::on_death() {
+    return 4;
 }
 
 pair<bool, int> Merchant::attack_to(Character& c) {

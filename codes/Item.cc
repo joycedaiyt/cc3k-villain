@@ -18,5 +18,5 @@ int Item::get_effect_val() const {
 }
 
 bool Item::get_pickup() {
-    return true;
+    return pickup;
 }

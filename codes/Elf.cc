@@ -19,7 +19,7 @@ pair<bool, int> Elf::attack_to(Character& c) {
     if (c.get_race() == "Drow") {
         return c.attacked_by(*this);
     } else {
-        auto temp = c.attacked_by(*this);
+        c.attacked_by(*this);
         return c.attacked_by(*this);
     }
 }

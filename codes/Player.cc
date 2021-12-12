@@ -106,3 +106,10 @@ int Player::use_potion(string type, int effect) {
 //     c.attacked_by(*this);
 // }
 
+pair<bool, int> Player::attack_to(Character& c) {
+    auto temp = c.attacked_by(*this);
+    if (get_race() == "Goblin" && temp.first == true) {
+        this->set_gold(this->get_gold() + 5);
+    }
+    return temp;
+}

@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(int x_cor, int y_cor, int chamber):
-    Character{x_cor, y_cor}, chamber{ chamber }, gold{0}, prev_loc{'.'} {
+    Character{x_cor, y_cor}, chamber{chamber}, gold{0}, prev_loc{'.'} {
         action = "You have been spawned! Make it to the fifth floor to win the game!";
 }
 

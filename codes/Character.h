@@ -18,6 +18,7 @@ class Character {
     int temp_atk;
     int temp_def;
     char symbol;
+    string action;
     Character(int x_cor, int y_cor);
     virtual ~Character();
     int get_hp();

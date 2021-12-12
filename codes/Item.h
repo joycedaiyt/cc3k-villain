@@ -11,6 +11,7 @@ class Item {
 	int y_cor;
 	int effect_val;
 	std::string effect_type;
+  bool pickup;
 
 public:
     Item(int x, int y);

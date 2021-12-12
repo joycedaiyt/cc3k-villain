@@ -54,13 +54,14 @@ string Character::get_race() {
 
 pair<bool, int> Character::attacked_by(Character& c) {
     int attacker_attack = c.get_attack();
-    // ceiling((100/(100 + Def(Defender))) ∗ Atk(Attacker))
-    int damage = ceil((100/(100 + get_defense())) * attacker_attack);
-    if (get_hp() - damage <= 0) {
+    double d = 100 / (100 + (double) get_defense()) * (double) attacker_attack;
+    int damage = ceil(d);
+    set_hp(get_hp() - damage);
+    c.action = c.get_race() + " attacked " + get_race() + " and caused " + to_string(damage) + " damage";
+    if (get_hp() <= 0) {
         int drop = this->on_death();
         return make_pair(true, drop);
     } else {
-        set_hp(get_hp() - damage);
         return make_pair(false, 0);
     }
 }
@@ -71,5 +72,5 @@ int Character::on_death() {
 
 // if return true, attack is successful and the attacked target is dead
 pair<bool, int> Character::attack_to(Character& c) {
-    return c.attacked_by(*this);
+    return c.attacked_by(*this);;
 }

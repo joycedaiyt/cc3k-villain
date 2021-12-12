@@ -23,13 +23,3 @@ int Drow::use_potion(string type, int effect) {
     }
     return new_effect;
 }
-
-void Drow::attacked_by(Enemy& enemy) {
-	int damage = ceil((100 / (100 + get_defense())) * enemy.get_attack());
-    set_hp(get_hp - damage);
-	int newHP = getCurrHP() - damage;
-}
-
-void Drow::attack_to(Enemy& enemy) {
-	enemy.attacked_by(*this);
-}

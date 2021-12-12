@@ -14,6 +14,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
+    srand(time(NULL));
 
     // command line argument that gives a map with characters and items
     bool input_map = false;
@@ -35,7 +36,7 @@ int main(int argc, char* argv[]) {
     cin >> race;
     
     // this means create a floor with level at 1
-    shared_ptr<Floor> floor = make_shared<Floor>(1);
+    shared_ptr<Floor> floor = make_shared<Floor>(5);
     if (input_map) {
         floor->init_with_map(race, filename);
     } else {
@@ -49,7 +50,9 @@ int main(int argc, char* argv[]) {
 
     // this is the main game loop
     bool enemy_move = true;
-    while(!cin.eof()) {
+    
+    cin.ignore();
+    while(true) {
         // this part determine if we need to break out of the game loop
         if (player->get_hp() <= 0) {
             cout << "you lose" << endl;
@@ -59,7 +62,6 @@ int main(int argc, char* argv[]) {
             cout << "you win" << endl;
             break;
         }
-
         floor->render_graphics();
         floor->render_text();
         cout << "Make your next move!" << endl;

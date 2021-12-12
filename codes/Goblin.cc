@@ -19,8 +19,10 @@ pair<bool, int> Goblin::attacked_by(Character& c) {
     }
     if (get_hp() - damage <= 0) {
         int drop = this->on_death();
+        c.action = get_race() + " has been slained and dropped " + to_string(drop) + " gold";
         return make_pair(true, drop);
     } else {
+        c.action = c.get_race() + " attacked " + get_race() + " and caused " + to_string(damage) + " damage";
         set_hp(get_hp() - damage);
         return make_pair(false, 0);
     }

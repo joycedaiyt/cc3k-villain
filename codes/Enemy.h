@@ -5,6 +5,8 @@
 class Enemy: public Character {
     public:
     bool hostile;
+    int gold_x;
+    int gold_y;
     Enemy(int x_cor, int y_cor);
     ~Enemy();
     virtual char get_symbol() = 0;

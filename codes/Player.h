@@ -10,7 +10,6 @@ class Player: public Character {
     int chamber;
     int gold;
     char prev_loc;
-    string action;
     Player(int x_cor, int y_cor, int chamber);
     ~Player();
     int get_gold();
@@ -19,6 +18,7 @@ class Player: public Character {
     virtual pair<vector<shared_ptr<Item>>, bool> move(char sym, int new_x, int new_y, vector<shared_ptr<Item>> items, 
                                                 vector<string> used_potions, string direction = "");
     char get_symbol() override;
+    virtual pair<bool, int> attack_to(Character& c) override;
 };
 
 #endif
