@@ -69,6 +69,7 @@ int main(int argc, char* argv[]) {
 
     // this is the main game loop
     bool enemy_move = true;
+    bool spawn = false;
     cin.ignore();
     while(!cin.eof()) {
         shared_ptr<Player> player = floor->player;
@@ -79,7 +80,11 @@ int main(int argc, char* argv[]) {
             break;
         } else if (floor->get_floor_number() == 6) {
             // when you go through all the 5 floors
-            win(player->get_gold());
+            int point = player->get_gold();
+            if (player->get_race() == "Shade") {
+                point *= 1.5;
+            }
+            win(point);
             break;
         }
         floor->render_graphics();
@@ -99,6 +104,7 @@ int main(int argc, char* argv[]) {
             cout << "restarting game..." << endl;
             floor = start(input_map, filename);
             cin.ignore();
+            spawn = true;
         } else if (command == "q") {
             lose();
             break;
@@ -113,10 +119,13 @@ int main(int argc, char* argv[]) {
         } else {
             floor->move_player(command);
         }
-        floor->enemy_attack();
+        if (!spawn) {
+            floor->enemy_attack();
+        }
 
         if (enemy_move) {
             floor->move_enemies();
         }
+        spawn = false;
     }
 }
