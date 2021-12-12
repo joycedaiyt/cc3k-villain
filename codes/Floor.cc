@@ -417,7 +417,8 @@ void Floor::player_attack(string direction) {
     int new_y = new_loc.second;
     char new_sym = get_symbol(new_x, new_y);
     if (new_sym == 'H' || new_sym == 'W' || new_sym == 'O' || new_sym == 'E' || 
-        new_sym == 'M' || new_sym == 'L' || new_sym == 'D') {
+        new_sym == 'M' || new_sym == 'L') {
+        // this check for all enemies
         for (int i = 0; i < this->enemies.size(); ++i) {
             auto enemy = this->enemies[i];
             if (enemy->x_cor == new_x && enemy->y_cor == new_y) {
@@ -428,21 +429,20 @@ void Floor::player_attack(string direction) {
                     items.push_back(new_gold);
                     set_symbol(new_x, new_y, 'G');
                 } else if (result.first) {
-                    if (new_sym == 'D') {
-                        for (int i = 0; i < dragons.size(); ++i) {
-                            // shared_ptr<Dragon> dragon = dynamic_pointer_cast<Dragon>(dragons[i]);
-                            if (dragons[i]->x_cor == new_x && dragons[i]->y_cor == new_y) {
-                                for (auto gold: items) {
-                                    if (gold->x_cor == dragons[i]->gold_x && gold->y_cor == dragons[i]->gold_y) {
-                                        gold->pickup = true;
-                                    }
-                                }
-                                dragons.erase(dragons.begin() + i);
-                            }
-                        }
-                    } else {
+                    // if (new_sym == 'D') { // this part is never entered
+                    //     for (int i = 0; i < dragons.size(); ++i) {
+                    //         if (dragons[i]->x_cor == new_x && dragons[i]->y_cor == new_y) {
+                    //             for (auto gold: items) {
+                    //                 if (gold->x_cor == dragons[i]->gold_x && gold->y_cor == dragons[i]->gold_y) {
+                    //                     gold->pickup = true;
+                    //                 }
+                    //             }
+                    //             dragons.erase(dragons.begin() + i);
+                    //         }
+                    //     }
+                    // } else {
                         enemies.erase(enemies.begin() + i);
-                    }  
+                    // }  
                     set_symbol(new_x, new_y, '.');
                 }
                 // alert all merchant if attacking a merchant
@@ -452,6 +452,22 @@ void Floor::player_attack(string direction) {
                             e->hostile = 1;
                         }
                     }
+                }
+            }
+        }
+    } else if (new_sym == 'D') {
+        for (int i = 0; i < dragons.size(); ++i) {
+            auto dragon = this->dragons[i];
+            if (dragon->x_cor == new_x && dragon->y_cor == new_y) {
+                pair<bool, int> result = this->player->attack_to(*dragon);
+                if (result.first) {
+                    for (auto gold : items) {
+                        if (gold->x_cor == dragons[i]->gold_x &&
+                            gold->y_cor == dragons[i]->gold_y) {
+                            gold->pickup = true;
+                        }
+                    }
+                    set_symbol(new_x, new_y, '.');
                 }
             }
         }
