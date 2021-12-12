@@ -68,7 +68,8 @@ pair<vector<shared_ptr<Item>>, bool> Player::move(char sym, int new_x, int new_y
                     }
                     action += "pick it up with command u + direction";
                 } else {
-                    action = "There is a new potion at your " + direction + " direction, pick it up with command u + direction to see what it does";
+                    action = "There is a new potion at your " + direction + 
+                             " direction, pick it up with command u + direction to see what it does";
                 }
 
                 return make_pair(items, false);
@@ -78,8 +79,11 @@ pair<vector<shared_ptr<Item>>, bool> Player::move(char sym, int new_x, int new_y
         prev_loc = '.';
         action = "Level up!";
         return make_pair(items, true);
-    } else {
+    } else if (direction == "no" || direction == "so" || direction == "ea" || direction == "we" ||
+               direction == "ne" || direction == "nw" || direction == "se" || direction == "sw" ){
         action = "You cannot walk towards " + direction + ", there is an obstacle :(";
+    } else {
+        action = "Invalid command";
     }
     return make_pair(items, false);
 }
@@ -94,17 +98,6 @@ int Player::use_potion(string type, int effect) {
     }
     return effect;
 }
-
-// void Player::attack_by(Enemy& c) {
-//     int attacker_attack = c.get_attack();
-//     // ceiling((100/(100 + Def(Defender))) ∗ Atk(Attacker))
-//     int damage = ceil((100/(100 + get_defense())) * attacker_attack);
-//     set_hp(get_hp() - damage);    
-// }
-
-// void Player::attack_to(Enemy& c) {
-//     c.attacked_by(*this);
-// }
 
 pair<bool, int> Player::attack_to(Character& c) {
     auto temp = c.attacked_by(*this);

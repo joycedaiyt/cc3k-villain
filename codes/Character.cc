@@ -1,7 +1,9 @@
 #include "Character.h"
 
 Character::Character(int x_cor, int y_cor): 
-    x_cor{x_cor}, y_cor{y_cor}, temp_atk{0}, temp_def{0} {}
+    x_cor{x_cor}, y_cor{y_cor}, temp_atk{0}, temp_def{0} {
+        action = "";
+    }
 
 Character::~Character() {}
 

@@ -29,39 +29,50 @@ void Floor::init_with_map(char race, string filename) {
             if (c == '0' || c == '1' || c == '2'
                 || c == '3' || c == '4' || c == '5') {
                 string s = "";
-                s.push_back(c);            
+                s.push_back(c);      
                 shared_ptr<Item> new_item = f.Create(s, j, i);
                 this->items.push_back(new_item);
+                set_symbol(j, i, 'P');
             } else if (c == '6') {
                 shared_ptr<Item> new_item = f.Create("Gold", j, i, 2);
                 this->items.push_back(new_item);
+                set_symbol(j, i, 'G');
             } else if (c == '7') {
                 shared_ptr<Item> new_item = f.Create("Gold", j, i, 1);
                 this->items.push_back(new_item);
+                set_symbol(j, i, 'G');
             } else if (c == '8') {
                 shared_ptr<Item> new_item = f.Create("Gold", j, i, 4);
                 this->items.push_back(new_item);
+                set_symbol(j, i, 'G');
             } else if (c == '9') {
-                // this is the dragon hoard
-                // shared_ptr<Item> new_item = f.Create("Gold", j, i, 6);
-                if (get_symbol(j + 1 , i) == '.') {
-                    shared_ptr<Item> new_item = f.Create("Gold", j, i, 6);
-                    shared_ptr<Enemy> new_dragon = cc.create_character_by_name("D", j + 1, i, j, i);
-                    this->dragons.push_back(new_dragon);
-                    this->items.push_back(new_item);
-                    j++;
-                }
+                shared_ptr<Item> new_item = f.Create("Gold", j, i, 6);
+                shared_ptr<Enemy> new_dragon = cc.create_character_by_name("D", j + 1, i, j, i);
+                this->dragons.push_back(new_dragon);
+                this->items.push_back(new_item);
+                set_symbol(j, i, 'G');
+                set_symbol(j + 1, i, 'D');
+                infile.get(c);
+                j++;
+                continue;
             } else if (c == '@') {
                 shared_ptr<Player> player_race = cc.create_character_by_name(race, j, i, 0);
                 this->player = player_race;
+                player->x_cor = j;
+                player->y_cor = i;
+                set_symbol(j, i, '@');
             } else if (c == '\\') {
                 shared_ptr<Item> stair = f.Create("Stair", j, i);
                 this->items.push_back(stair);
-            } else if (c == 'D' || c == 'H' || c == 'W' || c == 'E' || c == 'O' || c == 'L' || c == 'M') {
-                string s  = "";
+                set_symbol(j, i, '\\');
+            } else if (c == 'H' || c == 'W' || c == 'E' || c == 'O' || c == 'L' || c == 'M') {
+                string s = "";
                 s.push_back(c);
+                cout << s << endl;
                 shared_ptr<Enemy> new_enemy = cc.create_character_by_name(s, j, i);
+                cout << new_enemy->get_race() << endl;
                 this->enemies.push_back(new_enemy);
+                set_symbol(j, i, new_enemy->get_symbol());
             }
         }
         infile.get(c);
@@ -401,7 +412,7 @@ void Floor::render_graphics() {
 
 void Floor::render_text() {
     cout << "Race: " << player->get_race() << " Gold: " << player->get_gold();
-    cout << setw(55) << "Floor: " << floor_number << endl;
+    cout << setw(56) << "Floor: " << floor_number << endl;
     cout << "HP: " << player->get_hp() << endl;
     cout << "Atk: "<< player->get_attack() << endl;
     cout << "Def: "<< player->get_defense() << endl;

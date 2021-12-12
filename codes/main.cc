@@ -13,6 +13,43 @@
 #include "Floor.h"
 using namespace std;
 
+shared_ptr<Floor> start(bool input_map, string filename) {
+    cout << "Please select from one of the following player characters: " << endl;
+    cout << "d: drow" << endl;
+    cout << "v: vampire" << endl;
+    cout << "t: troll" << endl;
+    cout << "g: goblin" << endl;
+    char race;
+    cin >> race;
+    // this means create a floor with level at 1
+    shared_ptr<Floor> floor = make_shared<Floor>(1);
+    // generates all the components of the floor
+    // generating order:
+    // player -> stairs -> potion -> gold -> enemy
+    if (input_map) {
+        floor->init_with_map(race, filename);
+    } else {
+        floor->init(race);
+    }
+    return floor;
+}
+
+void lose() {
+    cout << "++++++++++++++++++++++++++++" << endl;
+    cout << "+                          +" << endl;
+    cout << "+        you lose :(       +" << endl;
+    cout << "+                          +" << endl;
+    cout << "++++++++++++++++++++++++++++" << endl;
+}
+
+void win(int point) {
+    cout << "++++++++++++++++++++++++++++" << endl;
+    cout << "+        you win!!!        +" << endl;
+    cout << "+      your score is:      +" << endl;
+    cout << "+" << setw(9) << point << " points!!!" << setw(8)  << "+" << endl; 
+    cout << "++++++++++++++++++++++++++++" << endl;
+}
+
 int main(int argc, char* argv[]) {
     srand(time(NULL));
 
@@ -23,67 +60,47 @@ int main(int argc, char* argv[]) {
         filename = argv[1];
         input_map = true;
     }
-    // this player pointer is first declared here and waiting for assignment 
-    // when the the user choose their hero
 
-    // Player race selection
-    cout << "Please select from one of the following player characters: " << endl;
-    cout << "d: drow" << endl;
-    cout << "v: vampire" << endl;
-    cout << "t: troll" << endl;
-    cout << "g: goblin" << endl;
-    char race;
-    cin >> race;
-    
-    // this means create a floor with level at 1
-    shared_ptr<Floor> floor = make_shared<Floor>(5);
-    if (input_map) {
-        floor->init_with_map(race, filename);
-    } else {
-        floor->init(race);
-    }
+    shared_ptr<Floor> floor; 
+    floor = start(input_map, filename);
+
     // this part is assigning the correct player type to the main character
-    // generates all the components of the floor
-    // generating order:
-    // player -> stairs -> potion -> gold -> enemy
     shared_ptr<Player> player = floor->player;
 
     // this is the main game loop
     bool enemy_move = true;
-    
     cin.ignore();
-    while(true) {
-        // this part determine if we need to break out of the game loop
+    while(!cin.eof()) {
+        // determines if we need to break out of the game loop
         if (player->get_hp() <= 0) {
-            cout << "you lose" << endl;
+            lose();
             break;
         } else if (floor->get_floor_number() == 6) {
             // when you go through all the 5 floors
-            cout << "you win" << endl;
+            win(player->get_gold());
             break;
         }
         floor->render_graphics();
         floor->render_text();
         cout << "Make your next move!" << endl;
+
         // get player command
         string command;
         getline(cin, command);
-
         if (command[0] == 'u') {
             command.erase(0, 2);
             floor->use_potion(command);
         } else if (command[0] == 'a') {
             command.erase(0, 2);
             floor->player_attack(command);
-            // player->attack(command);
         } else if (command == "r") {
-            // restart game
+            cout << "restarting game..." << endl;
+            floor = start(input_map, filename);
+            cin.ignore();
         } else if (command == "q") {
-            cout << "you lose :(" << endl;
+            lose();
             break;
-            // admit defeat and exit the game
         } else if (command == "f") {
-            // stops enemies from moving until this key is pressed again
             if (enemy_move) {
                 enemy_move = false;
                 player->action = "Enemy movement is frozen";
@@ -100,5 +117,4 @@ int main(int argc, char* argv[]) {
             floor->move_enemies();
         }
     }
-    // delete floor;
 }
