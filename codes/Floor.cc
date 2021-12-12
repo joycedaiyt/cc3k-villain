@@ -68,9 +68,7 @@ void Floor::init_with_map(char race, string filename) {
             } else if (c == 'H' || c == 'W' || c == 'E' || c == 'O' || c == 'L' || c == 'M') {
                 string s = "";
                 s.push_back(c);
-                cout << s << endl;
                 shared_ptr<Enemy> new_enemy = cc.create_character_by_name(s, j, i);
-                cout << new_enemy->get_race() << endl;
                 this->enemies.push_back(new_enemy);
                 set_symbol(j, i, new_enemy->get_symbol());
             }
@@ -235,9 +233,6 @@ void Floor::generate_enemy() {
         set_symbol(coord.first, coord.second, enemy->get_symbol());
     }
     sort(enemies.begin(), enemies.end(), sort_location);
-    for (auto enemy: enemies) {
-        cout << enemy->y_cor << " " << enemy->x_cor << endl;
-    }
 }
 
 void Floor::init(char race) {
@@ -401,12 +396,17 @@ void Floor::render_text() {
     cout << "Def: "<< player->get_defense() << endl;
     cout << "Action: " << player->action << endl;
     for (auto enemy: this->enemies) {
-        int enemy_x_cor = enemy->x_cor;
-        int enemy_y_cor = enemy->y_cor;
-        if (abs(player->y_cor - enemy_y_cor) <= 1 &&
-            abs(player->x_cor - enemy_x_cor) <= 1 &&
+        if (abs(player->y_cor - enemy->y_cor) <= 1 &&
+            abs(player->x_cor - enemy->x_cor) <= 1 &&
             enemy->action != "") {
                 cout << enemy->action << endl;
+        }
+    }
+    for (auto dragon: this->dragons) {
+        if (abs(player->y_cor - dragon->y_cor) <= 1 &&
+            abs(player->x_cor - dragon->x_cor) <= 1 &&
+            dragon->action != "") {
+                cout << dragon->action << endl;
         }
     }
 }

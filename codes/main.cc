@@ -21,6 +21,9 @@ shared_ptr<Floor> start(bool input_map, string filename) {
     cout << "g: goblin" << endl;
     char race;
     cin >> race;
+    if (race != 'g' && race != 't' && race != 'v' && race != 'd') {
+        race = 's';
+    }
     // this means create a floor with level at 1
     shared_ptr<Floor> floor = make_shared<Floor>(1);
     // generates all the components of the floor
@@ -64,14 +67,13 @@ int main(int argc, char* argv[]) {
     shared_ptr<Floor> floor; 
     floor = start(input_map, filename);
 
-    // this part is assigning the correct player type to the main character
-    shared_ptr<Player> player = floor->player;
-
     // this is the main game loop
     bool enemy_move = true;
     cin.ignore();
     while(!cin.eof()) {
+        shared_ptr<Player> player = floor->player;
         // determines if we need to break out of the game loop
+        cout << player->get_hp() << endl;
         if (player->get_hp() <= 0) {
             lose();
             break;

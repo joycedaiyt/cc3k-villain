@@ -28,7 +28,7 @@ pair<vector<shared_ptr<Item>>, bool> Player::move(char sym, int new_x, int new_y
         x_cor = new_x;
         y_cor = new_y;
         move_effect();
-        action += " and you walked one step towards " + direction;
+        action = "You walked one step towards " + direction;
         return make_pair(items, true);
     } else if (sym == 'G') {
         for (int i = 0; i < items.size(); ++i) {
@@ -41,7 +41,7 @@ pair<vector<shared_ptr<Item>>, bool> Player::move(char sym, int new_x, int new_y
                     x_cor = new_x;
                     y_cor = new_y;
                     move_effect();
-                    action += ", you walked one step towards " + direction + " and picked up " + to_string(amount) + " gold";
+                    action = "You walked one step towards " + direction + " and picked up " + to_string(amount) + " gold";
                     items.erase(items.begin() + i);
                     return make_pair(items, true);
                 } else {
