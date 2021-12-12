@@ -12,7 +12,7 @@ Drow::Drow(int x_cor, int y_cor, int chamber): Player{x_cor, y_cor, chamber} {
 
 Drow::~Drow() {}
 
-int Drow::use_potion(string type, int effect) {
+int Drow::potion_effect(string type, int effect) {
     int new_effect = effect * 1.5;
     if (type == "RH" || type == "PH") {
         set_hp(get_hp() + new_effect);

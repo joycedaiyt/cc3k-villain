@@ -19,11 +19,16 @@ char Player::get_symbol() {
     return '@';
 }
 
+void Player::move_effect() {
+    set_hp(get_hp());
+}
+
 pair<vector<shared_ptr<Item>>, bool> Player::move(char sym, int new_x, int new_y, vector<shared_ptr<Item>> items, vector<string> used_potions, string direction) {
     if (sym == '.' || sym == '#' || sym == '+') {
         x_cor = new_x;
         y_cor = new_y;
-        action = "You walked one step towards " + direction;
+        move_effect();
+        action += " and you walked one step towards " + direction;
         return make_pair(items, true);
     } else if (sym == 'G') {
         for (int i = 0; i < items.size(); ++i) {
@@ -35,7 +40,8 @@ pair<vector<shared_ptr<Item>>, bool> Player::move(char sym, int new_x, int new_y
                     this->gold += amount;
                     x_cor = new_x;
                     y_cor = new_y;
-                    action = "You walked one step towards " + direction + " and picked up " + to_string(amount) + " gold";
+                    move_effect();
+                    action += ", you walked one step towards " + direction + " and picked up " + to_string(amount) + " gold";
                     items.erase(items.begin() + i);
                     return make_pair(items, true);
                 } else {
@@ -71,11 +77,11 @@ pair<vector<shared_ptr<Item>>, bool> Player::move(char sym, int new_x, int new_y
                     action = "There is a new potion at your " + direction + 
                              " direction, pick it up with command u + direction to see what it does";
                 }
-
                 return make_pair(items, false);
             }
         }
-    } else if (sym == '\\') {
+    } else if (sym == '\\') {    
+        move_effect();
         prev_loc = '.';
         action = "Level up!";
         return make_pair(items, true);
@@ -88,7 +94,8 @@ pair<vector<shared_ptr<Item>>, bool> Player::move(char sym, int new_x, int new_y
     return make_pair(items, false);
 }
 
-int Player::use_potion(string type, int effect) {
+
+int Player::potion_effect(string type, int effect) {
     if (type == "RH" || type == "PH") {
         set_hp(get_hp() + effect);
     } else if (type == "BA" || type == "WA") {
@@ -97,6 +104,39 @@ int Player::use_potion(string type, int effect) {
         temp_def += effect;
     }
     return effect;
+}
+
+pair<vector<shared_ptr<Item>>, vector<string>> Player::use_potion(int new_x, int new_y,vector<shared_ptr<Item>> items, vector<string> used_potions) {
+    for(int i = 0; i < items.size(); ++i) {
+        auto potion = items[i];
+        int effect = potion->get_effect_val();
+        string type = potion->get_effect_type();
+        if (new_x == potion->x_cor && new_y == potion->y_cor) {
+            int buff = potion_effect(type, effect);
+            action = "You have used a " + type + " potion, your ";
+            if (type == "RH" || type == "PH") {
+                action += "Health is ";
+            } else if (type == "BA" || type == "WA") {
+                action += "Atk is ";
+            } else {
+                action += "Def is ";
+            }
+            if (effect < 0) {
+                action += "reduced by ";
+            } else {
+                action += "increased by ";
+            }
+            action += to_string(abs(buff));
+            if (!(find(used_potions.begin(), used_potions.end(), type) != used_potions.end())) {
+                used_potions.emplace_back(type);
+            }
+            items.erase(items.begin() + i);
+            x_cor = new_x;
+            y_cor = new_y;
+            break;
+        }
+    }
+    return make_pair(items, used_potions);
 }
 
 pair<bool, int> Player::attack_to(Character& c) {

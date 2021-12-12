@@ -6,7 +6,7 @@ class Drow: public Player {
     public:
     Drow(int x_cor, int y_cor, int chamber);
     ~Drow();
-    int use_potion(string type, int effect) override;
+    int potion_effect(string type, int effect) override;
 };
 
 #endif

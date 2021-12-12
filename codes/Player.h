@@ -14,8 +14,10 @@ class Player: public Character {
     ~Player();
     int get_gold();
     void set_gold(int gold);
-    virtual int use_potion(string type, int effect);
-    virtual pair<vector<shared_ptr<Item>>, bool> move(char sym, int new_x, int new_y, vector<shared_ptr<Item>> items, 
+    virtual int potion_effect(string type, int effect);
+    virtual void move_effect();
+    pair<vector<shared_ptr<Item>>, vector<string>> use_potion(int new_x, int new_y,vector<shared_ptr<Item>> items, vector<string> used_potions);
+    pair<vector<shared_ptr<Item>>, bool> move(char sym, int new_x, int new_y, vector<shared_ptr<Item>> items, 
                                                 vector<string> used_potions, string direction = "");
     char get_symbol() override;
     virtual pair<bool, int> attack_to(Character& c) override;

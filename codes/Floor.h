@@ -55,7 +55,6 @@ class Floor {
     void move_enemies();
 
     void use_potion(string type);
-    void add_new_item(shared_ptr<Item>);
     void player_attack(string command);
     void enemy_attack();
         

@@ -373,46 +373,15 @@ void Floor::use_potion(string direction) {
     int new_y = location.second;
     char new_sym = get_symbol(new_x, new_y);
     if (new_sym == 'P') {
-        for (int i = 0; i < this->items.size(); ++i) {
-            auto potion = this->items[i];
-            int potion_effect = potion->get_effect_val();
-            string potion_type = potion->get_effect_type();
-            if (new_x == potion->x_cor && new_y == potion->y_cor) {
-                int buff = player->use_potion(potion_type, potion_effect);
-                player->action = "You have used a " + potion_type + " potion, your ";
-                if (potion_type == "RH" || potion_type == "PH") {
-                    player->action += "Health is ";
-                } else if (potion_type == "BA" || potion_type == "WA") {
-                    player->action += "Atk is ";
-                } else {
-                    player->action += "Def is ";
-                }
-                if (potion_effect < 0) {
-                    player->action += "reduced by ";
-                } else {
-                    player->action += "increased by ";
-                }
-                player->action += to_string(abs(buff));
-                if (!(find(used_potions.begin(), used_potions.end(), potion_type) != used_potions.end())) {
-                    used_potions.emplace_back(potion_type);
-                }
-                items.erase(items.begin() + i);
-                set_symbol(old_x, old_y, player->prev_loc);
-                set_symbol(new_x, new_y, '@');
-                player->x_cor = new_x;
-                player->y_cor = new_y;
-                break;
-            }
-        }
+        auto result = player->use_potion(new_x, new_y, items, used_potions);
+        set_symbol(old_x, old_y, player->prev_loc);
+        set_symbol(new_x, new_y, '@');
+        player->prev_loc = '.';
+        this->items = result.first;
+        this->used_potions = result.second;
     } else {
         player->action = "There is no potion to pick up :(";
     }
-}
-
-// it may be used when gold or potion is dropped from
-void Floor::add_new_item(shared_ptr<Item> item) {
-
-    
 }
 
 void Floor::render_graphics() {
