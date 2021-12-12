@@ -270,68 +270,24 @@ void Floor::move_player(string direction) {
     int new_x = location.first;
     int new_y = location.second;
     char new_sym = get_symbol(new_x, new_y);
-    bool walk = false;
-    int gold = 0;
-    if (new_sym == '.' || new_sym == '#' || new_sym == '+') {
-        walk = true;
-    } else if (new_sym == 'G') {
-        for (int i = 0; i < this->items.size(); ++i) {
-            if (new_x == this->items[i]->x_cor && new_y == this->items[i]->y_cor && items[i]->get_pickup()) {
-                gold = this->items[i]->get_effect_val();
-                player->gold += gold;
-                items.erase(items.begin() + i);
-                walk = true;
-            } else if (new_x == this->items[i]->x_cor && new_y == this->items[i]->y_cor) {
-                player->action = "You need to slain the dragon to take this gold at your " + direction + " direction";
-            }
-        }
-    } else if (new_sym == '\\') {
+    bool level_up = false;
+    if (new_sym == '\\') {
         reset();
         init();
         floor_number += 1;
-        player->prev_loc = '.';
-        player->action = "Level up!";
-    } else if (new_sym == 'P') {
-        for (int i = 0; i < this->items.size(); ++i) {
-            auto potion = this->items[i];
-            int potion_effect = potion->get_effect_val();
-            string effect = to_string(potion_effect);
-            string potion_type = potion->get_effect_type();
-            bool used = find(used_potions.begin(), used_potions.end(), potion_type) != used_potions.end();
-            if (new_x == potion->x_cor && new_y == potion->y_cor && used) {
-                player->action = "There is a " + potion_type + " potion at your " + direction + " direction, use it to ";
-                if (potion_effect < 0) {
-                    player->action += "reduce your ";
-                } else {
-                    player->action += "increase your ";
-                }
-                if (potion_type == "RH" || potion_type == "PH") {
-                    player->action += ("Health by " + effect + ", ");
-                } else if (potion_type == "BA" || potion_type == "WA") {
-                    player->action += ("Atk by " + effect + ", ");
-                } else {
-                    player->action += ("Def by " + effect + ", ");
-                }
-                player->action += "pick it up with command u + direction";
-            } else if (new_x == potion->x_cor && new_y == potion->y_cor) {
-                player->action = "There is a " + potion_type + " potion at your " + 
-                                direction + " direction, pick it up with command u + direction";
+        level_up = true;
+    } 
+    pair<vector<shared_ptr<Item>>, bool> walk = player->move(new_sym, new_x, new_y, items, used_potions, direction);
+    if (!level_up) {
+        this->items = walk.first;
+        if (walk.second) {
+            set_symbol(old_x, old_y, player->prev_loc);
+            set_symbol(new_x, new_y, '@');
+            if (new_sym == 'G') {
+                player->prev_loc = '.';
+            } else {
+                player->prev_loc = new_sym; 
             }
-        }
-    } else {
-        player->action = "You cannot walk towards " + direction + ", there is an obstacle :(";
-    }
-    if (walk) {
-        set_symbol(old_x, old_y, player->prev_loc);
-        this->player->x_cor = new_x;
-        this->player->y_cor = new_y;
-        set_symbol(new_x, new_y, '@');
-        this->player->action = "You've walked one step towards " + direction;
-        if (new_sym == 'G') {
-            this->player->prev_loc = '.';
-            player->action = "You've walked one step towards " + direction + " and picked up " + to_string(gold) + " gold";
-        } else {
-            this->player->prev_loc = new_sym;
         }
     }
 }

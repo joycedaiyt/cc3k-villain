@@ -1,6 +1,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "Character.h"
+#include "Item.h"
+#include <vector>
+using namespace std;
 
 class Player: public Character {
     public:
@@ -13,6 +16,8 @@ class Player: public Character {
     int get_gold();
     virtual int use_potion(string type, int effect);
     char get_symbol() override;
+    pair<vector<shared_ptr<Item>>, bool> move(char sym, int new_x, int new_y, vector<shared_ptr<Item>> items, 
+                                                vector<string> used_potions, string direction = "");
 };
-
+ 
 #endif
