@@ -199,6 +199,16 @@ void Floor::generate_gold() {
     }
 }
 
+bool Floor::sort_location(const shared_ptr<Enemy>& d1, const std::shared_ptr<Enemy>& d2) {
+    if (d1->y_cor < d2->y_cor) {
+        return true;
+    } else if (d1->y_cor == d2->y_cor) {
+        return d1->x_cor < d2->x_cor;
+    } else {
+        return false;
+    }
+}
+
 void Floor::generate_enemy() {
     for (int i = 0; i < 20; i ++) {
         int chamber = rand() % 5 + 1;
@@ -223,6 +233,10 @@ void Floor::generate_enemy() {
         shared_ptr<Enemy> enemy = cc.create_character_by_name(type, coord.first, coord.second);
         this->enemies.push_back(enemy);
         set_symbol(coord.first, coord.second, enemy->get_symbol());
+    }
+    sort(enemies.begin(), enemies.end(), sort_location);
+    for (auto enemy: enemies) {
+        cout << enemy->y_cor << " " << enemy->x_cor << endl;
     }
 }
 

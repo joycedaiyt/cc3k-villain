@@ -51,13 +51,13 @@ class Floor {
 
     std::pair<int, int> new_direction(string direction, int old_x, int old_y);
     void move_player(string direction);
+    static bool sort_location(const shared_ptr<Enemy>& d1, const std::shared_ptr<Enemy>& d2);
     void move_enemies();
 
     void use_potion(string type);
     void add_new_item(shared_ptr<Item>);
     void player_attack(string command);
     void enemy_attack();
-
         
     void render_graphics();
     void render_text();
