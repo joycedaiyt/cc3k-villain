@@ -433,8 +433,9 @@ void Floor::player_attack(string direction) {
                 pair<bool, int> result = this->player->attack_to(*enemy);
                 if (result.first && result.second != 0) {
                     ItemFactory cif{};
-                    shared_ptr<Item> new_gold = cif.Create("gold", new_x, new_y, result.second, true);
+                    shared_ptr<Item> new_gold = cif.Create("Gold", new_x, new_y, result.second, true);
                     items.push_back(new_gold);
+                    enemies.erase(enemies.begin() + i);
                     set_symbol(new_x, new_y, 'G');
                 } else if (result.first) {
                     enemies.erase(enemies.begin() + i);
