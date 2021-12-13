@@ -127,6 +127,7 @@ pair<vector<shared_ptr<Item>>, vector<string>> Player::use_potion(int new_x, int
                 action += "increased by ";
             }
             action += to_string(abs(buff));
+            // if the potion has not been used before, add it to the used_potions vector
             if (!(find(used_potions.begin(), used_potions.end(), type) != used_potions.end())) {
                 used_potions.emplace_back(type);
             }

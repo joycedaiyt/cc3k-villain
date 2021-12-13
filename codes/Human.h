@@ -7,6 +7,7 @@ class Human: public Enemy {
     Human(int x_cor, int y_cor);
     ~Human();
     char get_symbol() override;
+    // Human drops 2 piles of normal good when it dies
     int on_death() override;
 };
 

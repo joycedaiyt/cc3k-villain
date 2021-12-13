@@ -4,8 +4,6 @@
 
 class Dragon: public Enemy {
     public:
-    int gold_x;
-    int gold_y;
     Dragon(int x_cor, int y_cor, int gold_x, int gold_y);
     ~Dragon();
     char get_symbol() override;

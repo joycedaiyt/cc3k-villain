@@ -13,8 +13,9 @@
 #include "Floor.h"
 using namespace std;
 
+// Initializes the game and its floor with a player race
 shared_ptr<Floor> start(bool input_map, string filename) {
-    cout << "Please select from one of the following player characters: " << endl;
+    cout << "Please select from one of the following player characters or press any key to become a Shade: " << endl;
     cout << "d: drow" << endl;
     cout << "v: vampire" << endl;
     cout << "t: troll" << endl;
@@ -37,6 +38,7 @@ shared_ptr<Floor> start(bool input_map, string filename) {
     return floor;
 }
 
+// output when a player quits the game
 void lose() {
     cout << "++++++++++++++++++++++++++++" << endl;
     cout << "+                          +" << endl;
@@ -45,15 +47,21 @@ void lose() {
     cout << "++++++++++++++++++++++++++++" << endl;
 }
 
-void win(int point) {
+// output when a player wins or loses the game
+void output(int point, bool win) {
     cout << "++++++++++++++++++++++++++++" << endl;
-    cout << "+        you win!!!        +" << endl;
+    if (win) {
+        cout << "+        you win!!!        +" << endl;
+    } else {
+        cout << "+        you lose :(       +" << endl;
+    }
     cout << "+      your score is:      +" << endl;
     cout << "+" << setw(9) << point << " points!!!" << setw(8)  << "+" << endl; 
     cout << "++++++++++++++++++++++++++++" << endl;
 }
 
 int main(int argc, char* argv[]) {
+    // randome seed
     srand(time(NULL));
 
     // command line argument that gives a map with characters and items
@@ -64,6 +72,7 @@ int main(int argc, char* argv[]) {
         input_map = true;
     }
 
+    // initializes the floor
     shared_ptr<Floor> floor; 
     floor = start(input_map, filename);
 
@@ -74,18 +83,19 @@ int main(int argc, char* argv[]) {
     while(!cin.eof()) {
         shared_ptr<Player> player = floor->player;
         // determines if we need to break out of the game loop
+        int point = player->get_gold();
+        if (player->get_race() == "Shade") {
+            point *= 1.5;
+        }
         if (player->get_hp() <= 0) {
-            lose();
+            output(point, false);
             break;
         } else if (floor->get_floor_number() == 6) {
             // when you go through all the 5 floors
-            int point = player->get_gold();
-            if (player->get_race() == "Shade") {
-                point *= 1.5;
-            }
-            win(point);
+            output(point, true);
             break;
         }
+        // rendering
         floor->render_graphics();
         floor->render_text();
         cout << "Make your next move!" << endl;
@@ -118,10 +128,10 @@ int main(int argc, char* argv[]) {
         } else {
             floor->move_player(command);
         }
+        // enemies will not attack the player when it is just spawned
         if (!spawn) {
             floor->enemy_attack();
         }
-
         if (enemy_move) {
             floor->move_enemies();
         }

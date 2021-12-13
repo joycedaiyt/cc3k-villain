@@ -3,7 +3,6 @@
 
 Floor::Floor(int floor_number):
     floor_number(floor_number) {
-    // this is used to fill in the cell and create an empty map
     ifstream infile("empty_map.txt");
     char c;
     for (int i = 0; i < 25; ++i) {
@@ -176,6 +175,7 @@ void Floor::generate_gold() {
         if (amount <= 5) {
             amount = 2;
         } else if (amount <= 6) {
+            // generates a dragon when a dagon hoard is generated
             // a dragon will always guard its hoard on the right
             if (get_symbol(coord.first + 1, coord.second) != '.') {
                 i -= 1;
@@ -371,7 +371,6 @@ void Floor::move_enemies() {
         }
     }
 }
-
 void Floor::use_potion(string direction) {
     int old_x = player->x_cor;
     int old_y = player->y_cor;
@@ -409,12 +408,14 @@ void Floor::render_text() {
     cout << "Action: " << player->action << endl;
     for (auto enemy: this->enemies) {
         if (valid_atk(enemy, this->player) && enemy->action != "") {
-            cout << enemy->action << endl;
+            cout << "        " << enemy->action << endl;
+            enemy->action = "";
         }
     }
     for (auto dragon: this->dragons) {
         if (valid_atk(dragon, this->player) && dragon->action != "") {
-            cout << dragon->action << endl;
+            cout << "        " << dragon->action << endl;
+            dragon->action = "";
         }
     }
 }
@@ -456,6 +457,7 @@ void Floor::player_attack(string direction) {
             auto dragon = this->dragons[i];
             if (dragon->x_cor == new_x && dragon->y_cor == new_y) {
                 pair<bool, int> result = this->player->attack_to(*dragon);
+                // if a dragon dies, its gold can be picked up
                 if (result.first) {
                     for (auto gold : items) {
                         if (gold->x_cor == dragon->gold_x &&
@@ -471,17 +473,26 @@ void Floor::player_attack(string direction) {
     }
 }
 
+
 void Floor::enemy_attack() {
     for (auto enemy: this->enemies) {
+        int need_attack = rand() % 2;
         if (valid_atk(enemy, this->player)) {
-            enemy->attack_to(*(this->player));
-            continue;
+            if (need_attack == 1) {
+                enemy->attack_to(*(this->player));
+            } else {
+                enemy->action = enemy->get_race() + " missed its attack";
+            }
         }
     }
     for (auto dragon: this->dragons) {
+        int need_attack = rand() % 2;
         if (valid_atk(dragon, this->player)) {
-            dragon->attack_to(*(this->player));
-            continue;
-        }
+            if (need_attack == 1) {
+                dragon->attack_to(*(this->player));
+            } else {
+                dragon->action = dragon->get_race() + " missed its attack";
+            }
+        } 
     }
 }

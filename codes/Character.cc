@@ -72,7 +72,6 @@ int Character::on_death() {
     return 0;
 }
 
-// if return true, attack is successful and the attacked target is dead
 pair<bool, int> Character::attack_to(Character& c) {
     return c.attacked_by(*this);;
 }

@@ -19,7 +19,6 @@ pair<bool, int> Halfling::attacked_by(Character& c) {
     int is_miss = rand() % 1;
     if (is_miss == 0) {
         int attacker_attack = c.get_attack();
-
         double d = 100 / (100 + (double) get_defense()) * (double) attacker_attack;
         int damage = ceil(d);
         set_hp(get_hp() - damage);

@@ -3,6 +3,7 @@
 
 class Cell {
     public:
+    // the type is used to tell what character is store in the particular position
     char type;
     Cell(char type);
 };

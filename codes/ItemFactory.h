@@ -9,6 +9,7 @@ using namespace std;
 class ItemFactory {
     public:
     ItemFactory() = delete;
+    // Creates an item of a specific type
     static std::shared_ptr<Item> Create(const std::string szName, int x, int y, int value = 0, bool pickup = 0);
 };
 
