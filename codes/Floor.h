@@ -51,7 +51,8 @@ class Floor {
 
     std::pair<int, int> new_direction(string direction, int old_x, int old_y);
     void move_player(string direction);
-    static bool sort_location(const shared_ptr<Enemy>& d1, const std::shared_ptr<Enemy>& d2);
+    static bool sort_location(const shared_ptr<Enemy>& d1, const shared_ptr<Enemy>& d2);
+    static bool valid_atk(const shared_ptr<Enemy>& e, const std::shared_ptr<Player>& p); 
     void move_enemies();
 
     void use_potion(string type);

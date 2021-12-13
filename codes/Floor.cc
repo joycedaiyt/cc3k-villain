@@ -184,7 +184,7 @@ void Floor::generate_gold() {
             amount = 6;
             pickup = false;
             CharacterCreator cc{};
-            shared_ptr<Enemy> dragon = cc.create_character_by_name("D", coord.first, coord.second, coord.first + 1, coord.second);
+            shared_ptr<Enemy> dragon = cc.create_character_by_name("D", coord.first + 1, coord.second, coord.first, coord.second);
             dragons.push_back(dragon);
             set_symbol(coord.first + 1, coord.second, dragon->get_symbol());
         } else {
@@ -319,14 +319,26 @@ void Floor::move_player(string direction) {
     }
 }
 
+bool Floor::valid_atk(const shared_ptr<Enemy>& e, const std::shared_ptr<Player>& p) {
+    string type = e->get_race();
+    bool near_gold = false;
+    if (type == "Dragon" && abs(p->y_cor - e->gold_y) <= 1 && abs(p->x_cor - e->gold_x) <= 1) {
+        near_gold = true;
+    }
+    if ((abs(p->y_cor - e->y_cor) <= 1 && abs(p->x_cor - e->x_cor) <= 1) || near_gold) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void Floor::move_enemies() {
     for (int i = 0; i < this->enemies.size(); ++i) {
         int direction_number = rand() % 8;
         string direction;
         int old_x = enemies[i]->x_cor;
         int old_y = enemies[i]->y_cor;
-        if (abs(player->y_cor - old_y) <= 1 &&
-            abs(player->x_cor - old_x) <= 1) {
+        if (valid_atk(enemies[i], this->player)) {
             continue;
         }
         if (direction_number == 0) {
@@ -396,17 +408,13 @@ void Floor::render_text() {
     cout << "Def: "<< player->get_defense() << endl;
     cout << "Action: " << player->action << endl;
     for (auto enemy: this->enemies) {
-        if (abs(player->y_cor - enemy->y_cor) <= 1 &&
-            abs(player->x_cor - enemy->x_cor) <= 1 &&
-            enemy->action != "") {
-                cout << enemy->action << endl;
+        if (valid_atk(enemy, this->player) && enemy->action != "") {
+            cout << enemy->action << endl;
         }
     }
     for (auto dragon: this->dragons) {
-        if (abs(player->y_cor - dragon->y_cor) <= 1 &&
-            abs(player->x_cor - dragon->x_cor) <= 1 &&
-            dragon->action != "") {
-                cout << dragon->action << endl;
+        if (valid_atk(dragon, this->player) && dragon->action != "") {
+            cout << dragon->action << endl;
         }
     }
 }
@@ -429,20 +437,7 @@ void Floor::player_attack(string direction) {
                     items.push_back(new_gold);
                     set_symbol(new_x, new_y, 'G');
                 } else if (result.first) {
-                    // if (new_sym == 'D') { // this part is never entered
-                    //     for (int i = 0; i < dragons.size(); ++i) {
-                    //         if (dragons[i]->x_cor == new_x && dragons[i]->y_cor == new_y) {
-                    //             for (auto gold: items) {
-                    //                 if (gold->x_cor == dragons[i]->gold_x && gold->y_cor == dragons[i]->gold_y) {
-                    //                     gold->pickup = true;
-                    //                 }
-                    //             }
-                    //             dragons.erase(dragons.begin() + i);
-                    //         }
-                    //     }
-                    // } else {
-                        enemies.erase(enemies.begin() + i);
-                    // }  
+                    enemies.erase(enemies.begin() + i);
                     set_symbol(new_x, new_y, '.');
                 }
                 // alert all merchant if attacking a merchant
@@ -462,11 +457,12 @@ void Floor::player_attack(string direction) {
                 pair<bool, int> result = this->player->attack_to(*dragon);
                 if (result.first) {
                     for (auto gold : items) {
-                        if (gold->x_cor == dragons[i]->gold_x &&
-                            gold->y_cor == dragons[i]->gold_y) {
+                        if (gold->x_cor == dragon->gold_x &&
+                            gold->y_cor == dragon->gold_y) {
                             gold->pickup = true;
                         }
                     }
+                    dragons.erase(dragons.begin() + i);
                     set_symbol(new_x, new_y, '.');
                 }
             }
@@ -475,26 +471,16 @@ void Floor::player_attack(string direction) {
 }
 
 void Floor::enemy_attack() {
-    int player_x_cor = this->player->x_cor;
-    int player_y_cor = this->player->y_cor;
     for (auto enemy: this->enemies) {
-        int enemy_x_cor = enemy->x_cor;
-        int enemy_y_cor = enemy->y_cor;
-        if (abs(player_y_cor - enemy_y_cor) <= 1 &&
-            abs(player_x_cor - enemy_x_cor) <= 1) {
-                enemy->attack_to(*(this->player));
+        if (valid_atk(enemy, this->player)) {
+            enemy->attack_to(*(this->player));
+            continue;
         }
     }
     for (auto dragon: this->dragons) {
-        int dragon_x_cor = dragon->x_cor;
-        int dragon_y_cor = dragon->y_cor;
-        int gold_x = dragon->gold_x;
-        int gold_y = dragon->gold_y;
-        if ((abs(player_y_cor - dragon_y_cor) <= 1 &&
-            abs(player_x_cor - dragon_x_cor) <= 1) ||
-            (abs(player_y_cor - gold_y) <= 1 &&
-            abs(player_x_cor - gold_x) <= 1)) {
-                dragon->attack_to(*(this->player));
+        if (valid_atk(dragon, this->player)) {
+            dragon->attack_to(*(this->player));
+            continue;
         }
     }
 }

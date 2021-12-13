@@ -74,7 +74,6 @@ int main(int argc, char* argv[]) {
     while(!cin.eof()) {
         shared_ptr<Player> player = floor->player;
         // determines if we need to break out of the game loop
-        cout << player->get_hp() << endl;
         if (player->get_hp() <= 0) {
             lose();
             break;

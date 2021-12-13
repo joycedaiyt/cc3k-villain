@@ -1,13 +1,12 @@
 #include "Dragon.h"
 
-Dragon::Dragon(int x_cor, int y_cor, int gold_x, int gold_y): Enemy{x_cor, y_cor} {
+Dragon::Dragon(int x_cor, int y_cor, int gold_x, int gold_y): 
+    Enemy{x_cor, y_cor, gold_x, gold_y} {
     set_max_hp(150);
     set_hp(150);
     set_attack(20);
     set_defense(20);
     set_race("Dragon");
-    this->gold_x = gold_x;
-    this->gold_y = gold_y;
     this->hostile = true;
 }
 
