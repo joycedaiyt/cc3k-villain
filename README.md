@@ -31,19 +31,27 @@ To run the game:
 
 #### Starting the Game
 If a text file is not provided when running the game, then it will initialize the game by randomly generating the map with the player, staircase, 20 enemies, 10 gold, and 10 potion locations. The player will never be in the same chamber as the staircase.
-<img src="/images/initial display.png" width="520" height="400">
+<p align="center">
+<img src="/images/initial display.png" width="520" height="400"/>
+</p>
 
 #### Attack
 For each movement of the player, all enemies will randomly move to a new location within their one block radius. When the player enters one block radius of any enemy or one block radius of a dragon hoard that is guarded by a dragon, it will be attacked, and its random movement will be stopped. 
-![](/images/attack.png= 250x250)
-When an enemy is slain, it will also drop gold. 
-![](/images/slain.png= 250x250)
-
+<p align="left">
+<img src="/images/attack.png" width="520" height="400"/>
+</p>
+<p align="right">
+<img src="/images/slain.png" width="520" height="400"/>
+</p>
 #### Gold
 By walking over a pile of gold, denoted by G on the map, the player can pick it up.
-![](/images/gold.png= 250x250)
+<p align="center">
+<img src="/images/gold.png" width="520" height="400"/>
+</p>
 
 #### Potion
 The player can check the potion effects by attempting to move towards the potion’s direction. The details of the potion effect will only be displayed if the player has used that type of potion before on the current floor. Potion effects are only valid on the current floor. 
-![](/images/new potion.png= 250x250)
+<p align="center">
+<img src="/images/new potion.png" width="520" height="400"/>
+</p>
 
