@@ -37,15 +37,9 @@ If a text file is not provided when running the game, then it will initialize th
 
 #### Attack
 For each movement of the player, all enemies will randomly move to a new location within their one block radius. When the player enters one block radius of any enemy or one block radius of a dragon hoard that is guarded by a dragon, it will be attacked, and its random movement will be stopped. 
-Solarized dark             |  Solarized Ocean
 :-------------------------:|:-------------------------:
 <img src="/images/attack.png" />  |  <img src="/images/slain.png" />
-<p align="center">
-<img src="/images/attack.png" width="520" height="400"/>
-</p>
-<p align="right">
-<img src="/images/slain.png" width="520" height="400"/>
-</p>
+
 #### Gold
 By walking over a pile of gold, denoted by G on the map, the player can pick it up.
 <p align="center">
