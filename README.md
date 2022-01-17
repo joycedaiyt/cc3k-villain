@@ -31,7 +31,7 @@ To run the game:
 
 #### Starting the Game
 If a text file is not provided when running the game, then it will initialize the game by randomly generating the map with the player, staircase, 20 enemies, 10 gold, and 10 potion locations. The player will never be in the same chamber as the staircase.
-<img src="/images/initial display.png" width="500" height="350">
+<img src="/images/initial display.png" width="500" height="470">
 
 #### Attack
 For each movement of the player, all enemies will randomly move to a new location within their one block radius. When the player enters one block radius of any enemy or one block radius of a dragon hoard that is guarded by a dragon, it will be attacked, and its random movement will be stopped. 
