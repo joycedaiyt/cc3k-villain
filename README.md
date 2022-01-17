@@ -38,8 +38,8 @@ If a text file is not provided when running the game, then it will initialize th
 #### Attack
 For each movement of the player, all enemies will randomly move to a new location within their one block radius. When the player enters one block radius of any enemy or one block radius of a dragon hoard that is guarded by a dragon, it will be attacked, and its random movement will be stopped. 
 <p float="left">
-  <img src="/images/attack.png" width = "500" />
-  <img src="/images/slain.png" width = "500" />
+  <img src="/images/attack.png" width = "490" />
+  <img src="/images/slain.png" width = "490" />
 </p>
 
 
